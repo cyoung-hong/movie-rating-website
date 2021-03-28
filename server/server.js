@@ -1,0 +1,39 @@
+// "This product uses the TMDb API but is not endorsed or certified by TMDb."
+
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+import tmdbRoutes from './service/tmdb.js'
+import ratingRoutes from './routes/ratings.js';
+import userRoutes from './routes/user.js'
+
+dotenv.config();
+
+const app = express();
+
+// May be an issue later, "express.json" , "express.urlencoded", bodyParser deprecated ?
+app.use(express.json({ limit: "30mb", extended: true}));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
+app.use(cors());
+
+app.use('/api/tmdb', tmdbRoutes);
+app.use('/api/ratings', ratingRoutes);
+app.use('/api/user', userRoutes);
+
+const PORT = process.env.PORT || 8082;
+
+// Connect Database
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+})
+.then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+.catch((error) => console.log(error.message));
+
+app.get('/', (req, res) => res.send('Hello world!'));
+
+

@@ -1,0 +1,4 @@
+{
+    "mongoURI":
+      "mongodb+srv://dbAdmin:septicGERMicidebounce3255@cluster0.xjn6y.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}
