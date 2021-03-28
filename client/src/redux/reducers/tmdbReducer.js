@@ -1,16 +1,16 @@
-import { SEARCH_MOVIE } from "../actionTypes.js";
+import { SEARCH_TMDB_TITLE } from "../actionTypes.js";
 
 const initialState = {
-  filteredMovies: [],
-  query: "",
+  searchResults: [],
 };
 
 const tmdbReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SEARCH_MOVIE:
+    case SEARCH_TMDB_TITLE:
+      //console.log("Inside tmdb reducer");
       return {
         ...state,
-        query: action.payload.query,
+        searchResults: action.payload,
       };
     default:
       return state;
