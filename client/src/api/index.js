@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({baseURL: 'http://localhost:3000/api' });
-const tmdbUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDB_KEY}`;
+const API = axios.create({baseURL: 'http://localhost:8082/api' });
 
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')) {
@@ -11,15 +10,15 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-
-export const fetchNowPlaying = () => axios.get(tmdbUrl);
-
 export const fetchRatings = () => API.get('/ratings');
+
 export const getRecommendations = () => API.get('/recommendations');
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 
 // TMDB
-export const queryTMDB = (query) => API.get(`/tmdb/search${query}`);
+// Must correspond to controller endpoint
+// router.get('/search/:query', searchMovie);
+export const queryTMDBTitle = (query) => API.get(`/tmdb/search/${query}`);
 
 //export const deletePost = (id) => API.delete(`/posts/${id}`);
