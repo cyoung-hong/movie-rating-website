@@ -11,5 +11,5 @@ export const LOGOUT = 'LOGOUT';
 // UI Actions
 export const LOADING_DATA = 'LOADING_DATA';
 
-// Service Actions
-export const SEARCH_MOVIE = 'SEARCH_MOVIE';
+// TMDB Service Actions
+export const SEARCH_TMDB_TITLE = 'SEARCH_TMDB_TITLE';
