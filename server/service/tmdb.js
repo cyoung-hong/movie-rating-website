@@ -6,7 +6,7 @@ import {testTMDB,searchMovie} from "./tmdbController.js";
 const router = express.Router();
 
 router.get('/', testTMDB);
-router.get('/search/:query', searchMovie);
+router.get('/search/:query/:page', searchMovie);
 
 
 export default router;

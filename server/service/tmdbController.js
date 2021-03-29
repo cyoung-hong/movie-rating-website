@@ -11,10 +11,10 @@ export const testTMDB = (req, res) => {
 };
 
 export const searchMovie = async (req, res) => {
-  const { query } = req.params;
+  const { query, page } = req.params;
   //console.log('Controller now in searchMovie');
   try {
-    await axios.get(`${process.env.TMDB_API}/search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=1&include_adult=false&region=us`)
+    await axios.get(`${process.env.TMDB_API}/search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false&region=us`)
       .then((searchResults) => {
         res.status(201).json(searchResults.data);
       })
