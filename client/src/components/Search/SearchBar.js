@@ -37,17 +37,21 @@ const SearchBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
 
   const handleChange = (event) => {
     //console.log({ [event.target.name]: event.target.value });
     setQuery(event.target.value.toString());
   };
 
-  const handleClick = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     //console.log(query);
+    const tmpPage = page.toString();
+    console.log(tmpPage);
+
     // Goes to tmdbReducer after
-    dispatch(searchMovieByTitle(query));
+    dispatch(searchMovieByTitle(query, tmpPage));
   };
 
   return (
@@ -56,6 +60,7 @@ const SearchBar = () => {
       className={classes.search}
       width={6}
       onChange={handleChange}
+      onSubmit={handleSubmit}
     >
       <InputBase
         className={classes.input}
@@ -65,7 +70,7 @@ const SearchBar = () => {
       <IconButton
         className={classes.iconButton}
         aria-label="search"
-        onClick={handleClick}
+        type="submit"
       >
         <SearchIcon />
       </IconButton>
