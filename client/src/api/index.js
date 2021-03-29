@@ -19,6 +19,6 @@ export const signIn = (formData) => API.post('/user/signin', formData);
 // TMDB
 // Must correspond to controller endpoint
 // router.get('/search/:query', searchMovie);
-export const queryTMDBTitle = (query) => API.get(`/tmdb/search/${query}`);
+export const queryTMDBTitle = (query, page) => API.get(`/tmdb/search/${query}/${page}`);
 
 //export const deletePost = (id) => API.delete(`/posts/${id}`);
