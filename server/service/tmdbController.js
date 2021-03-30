@@ -14,7 +14,7 @@ export const searchMovie = async (req, res) => {
   const { query, page } = req.params;
   //console.log('Controller now in searchMovie');
   try {
-    await axios.get(`${process.env.TMDB_API}/search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false&region=us`)
+    await axios.get(`${process.env.TMDB_API}search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false&region=us`)
       .then((searchResults) => {
         res.status(201).json(searchResults.data);
       })
@@ -23,3 +23,14 @@ export const searchMovie = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+// export const getMoviePoster = async (req, res) => {
+//   const {path} = req.params;
+
+//   try {
+//     await axios.get(`${process.env.TMDB_IMAGE_API}original/${path}`)
+//     .then((moviePoster) => {
+//       res.status(201).json(moviePoster)
+//     })
+//   }
+// }
