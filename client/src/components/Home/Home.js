@@ -1,8 +1,6 @@
 import React from "react";
 import { Grid, Container, CssBaseline, Typography } from "@material-ui/core";
 
-import axios from "axios";
-
 import SearchBar from "../Search/SearchBar.js";
 import useStyles from "./styles";
 
