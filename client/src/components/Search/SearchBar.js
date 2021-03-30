@@ -8,6 +8,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import {useHistory} from 'react-router-dom';
+
 import { Link } from "react-router-dom";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -35,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchBar = () => {
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -49,9 +52,9 @@ const SearchBar = () => {
     //console.log(query);
     const tmpPage = page.toString();
     console.log(tmpPage);
-
     // Goes to tmdbReducer after
     dispatch(searchMovieByTitle(query, tmpPage));
+    history.push('/results');
   };
 
   return (
