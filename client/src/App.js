@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar/Navbar.js";
 
 import Home from "./components/Home/Home.js";
 import Auth from "./components/Auth/Auth.js";
+import Results from "./components/Results/Results.js";
 
 axios.defaults.baseURL = "https:/localhost:8082/api/";
 
@@ -33,6 +34,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/auth" component={Auth} />
+          <Route exact path="/results" component={Results} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
