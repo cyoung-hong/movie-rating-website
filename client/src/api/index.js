@@ -13,8 +13,10 @@ API.interceptors.request.use((req) => {
 export const fetchRatings = () => API.get('/ratings');
 
 export const getRecommendations = () => API.get('/recommendations');
+export const createRecommendation = (movieData) => API.post('/recommendations/create', movieData);
 
 export const signIn = (formData) => API.post('/user/signin', formData);
+export const signUp = (formData) => API.post('/user/signup', formData)
 
 // TMDB
 // Must correspond to controller endpoint
