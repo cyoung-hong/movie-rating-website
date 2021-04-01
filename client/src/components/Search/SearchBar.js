@@ -4,13 +4,9 @@ import {
   Paper,
   InputBase,
   IconButton,
-  TextField,
-  Typography,
 } from "@material-ui/core";
 
 import {useHistory} from 'react-router-dom';
-
-import { Link } from "react-router-dom";
 
 import SearchIcon from "@material-ui/icons/Search";
 

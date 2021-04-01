@@ -1,50 +1,87 @@
 import React from "react";
-import { Paper, Grid, Button, Divider, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Typography,
+} from "@material-ui/core";
+import { useDispatch } from 'react-redux';
+
+import { Card, CardContent, CardMedia } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import AddIcon from "@material-ui/icons/Add";
+import { createRecommendation } from '../../../redux/actions/recommendationActions.js';
+
 
 //import useStyles from './styles';
 
+// const handleClick = (event) => {
+
+// }
+
 const useStyles = makeStyles((theme) => ({
-  paper: {
-      minWidth: "80%",
-      maxHeight: 600,
+  root: {
+    display: "flex",
+    margin: 4,
+    width: "100%",
+    height: 141,
   },
-  wrappingContainer: {
-      alignContent: "center",
-      alignItems: "center",
+  details: {
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
   },
-  moviePoster: {
-    objectFit: "cover",
-    maxWidth: "100%",
+  content: {
+    width: "100%",
+    height: "100%"
   },
-  movieInfo: {},
+  cover: {
+    display: "flex",
+    width: 94,
+  },
 }));
 
-const Result = (result, setCurrentId) => {
+
+const Result = ({result}) => {
   const classes = useStyles();
-  console.log(result.result.original_title);
+  const dispatch = useDispatch();
+
+  const handleClick = (event) => {
+    const movieData = {
+      recommender: "Logged in user",
+      movie: {
+        tmdbID: result.id,
+        title: result.original_title,
+        year: result.release_date,
+        posterUrl: result.poster_path,
+        genres: result.genres,
+      }
+    };
+    
+    dispatch(createRecommendation(movieData));
+  }
+  
   return (
-    <Paper className={classes.paper}>
-      <Grid container spacing={3} className={classes.wrappingContainer}>
-        <Grid item xs={2} className={classes.moviePoster}>
-          <img
-            src={`https://image.tmdb.org/t/p/w300${result.result.poster_path}`}
-            alt="movie poster"
-            className={classes.moviePoster}
-          />
-        </Grid>
-        <Grid item xs={8}>
-          <Typography variant="h6">{result.result.original_title} </Typography>
-          <Typography>{result.result.overview}</Typography>
-        </Grid>
-        <Button className={classes.recButton}>
-          Recommend
-        </Button>
+    <Card className={classes.root}>
+      <CardMedia
+        className={classes.cover}
+        image={`https://image.tmdb.org/t/p/w300${result.poster_path}`}
+        title="poster"
+      />
+      <Grid container className={classes.details}>
+        <CardContent className={classes.content}>
+          <Typography component="h5" variant="h5">
+            {result.original_title}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {result.overview}
+          </Typography>
+          <Button onClick={handleClick}> 
+            Adddd
+          </Button>
+        </CardContent>
       </Grid>
-    </Paper>
+    </Card>
   );
 };
 
