@@ -35,8 +35,6 @@ const Auth = () => {
     } else {
       dispatch(signin(formData, history));
     }
-
-    console.log(formData);
   };
 
   const handleChange = (event) => {
@@ -44,10 +42,13 @@ const Auth = () => {
   };
 
   const switchMode = () => {
+    console.log("Is signup, ====== " + isSignup);
     setIsSignup((prevIsSignup) => !prevIsSignup);
   };
 
   const handleShowPassword = () => {
+    console.log("Is signup, ====== " + isSignup);
+
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
