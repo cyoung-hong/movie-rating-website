@@ -7,8 +7,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import tmdbRoutes from './service/tmdb.js'
-import ratingRoutes from './routes/ratings.js';
-import userRoutes from './routes/user.js'
+import ratingRoutes from './routes/ratingRoutes.js';
+import userRoutes from './routes/userRoutes.js'
+import recommendationRoutes from './routes/recommendationRoutes.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use('/api/tmdb', tmdbRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/ratings', ratingRoutes);
 app.use('/api/user', userRoutes);
 
