@@ -2,7 +2,6 @@ import React from "react";
 import axios from 'axios';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import { Typography } from "@material-ui/core";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import themeFile from "./theme.js";
