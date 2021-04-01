@@ -1,6 +1,5 @@
 import { SEARCH_TMDB_TITLE } from "../actionTypes.js";
 import * as api from '../../api/index.js';
-import axios from "axios";
 
 export const testAction = (query) => {
     console.log("In test action " + query);
