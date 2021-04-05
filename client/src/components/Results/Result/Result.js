@@ -47,8 +47,8 @@ const Result = ({result}) => {
   const dispatch = useDispatch();
 
   const handleClick = (event) => {
+    //console.log(Date.now());
     const movieData = {
-      recommender: "Logged in user",
       movie: {
         tmdbID: result.id,
         title: result.original_title,

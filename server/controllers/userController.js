@@ -1,3 +1,4 @@
+// LOOK INTO EXPRESS VALIDATOR
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -33,14 +34,17 @@ export const signin = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { email, password, confirmPassword, firstName, lastName } = req.body;
+ 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      //throw createError(400, 'User already exists');
+      //return next(new Error("User already exists"));
       return res.status(400).send({ message: "User already exists." });
     }
 
-    if (password !== confirmPassword){
-      return res.status(400).json({ message: "Passwords do not match." });
+    if (password !== confirmPassword) {
+      return res.status(400).send({ message: "Passwords do not match." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -60,4 +64,5 @@ export const signup = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }
+
 };

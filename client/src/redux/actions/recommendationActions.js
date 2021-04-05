@@ -2,7 +2,13 @@ import { CREATE_RECOMMENDATION } from '../actionTypes';
 import * as api from '../../api/index.js';
 
 export const getRecommendation = () => async (dispatch) => {
+    try {
+        const { data } = await api.getRecommendations();
 
+        dispatch({ type: 'GET_RECOMMENDATIONS', payload: data,})
+    } catch(error) {
+        console.log(error.message);
+    }
 };
 
 
