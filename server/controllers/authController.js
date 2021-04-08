@@ -1,8 +1,25 @@
 // LOOK INTO EXPRESS VALIDATOR
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import passport from "../middleware/Passport/setup.js";
 
 import User from "../models/user.js";
+
+export const ppLogin = passport.authenticate("local-login", {
+  successRedirect: "/api/auth/login-success",
+  failureRedirect: "/api/auth/login-failure",
+});
+
+export const loginSuccess = (req, res) => {
+  console.log(req.session);
+  console.log(req.user);
+  res.send("Success");
+};
+
+export const loginFailure = (req, res) => {
+  //console.log(req);
+  res.send("Cap");
+};
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -34,7 +51,7 @@ export const signin = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { email, password, confirmPassword, firstName, lastName } = req.body;
- 
+
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -66,5 +83,4 @@ export const signup = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }
-
 };
