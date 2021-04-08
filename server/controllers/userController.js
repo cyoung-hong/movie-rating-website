@@ -47,7 +47,9 @@ export const signup = async (req, res) => {
       return res.status(400).send({ message: "Passwords do not match." });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    // Salt password, default genSalt(10)
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const result = await User.create({
       email,
