@@ -1,11 +1,11 @@
-import MovieRating from "../models/movieRating.js";
+import Rating from "../models/Rating.js";
 
 export const getRatings = async (req, res) => {
    try {
        console.log('In get Ratings -- server');
-       const movieRatings = await MovieRating.find();
-       console.log(movieRatings);
-       res.status(200).json(movieRatings);
+       const ratings = await Rating.find();
+       console.log(ratings);
+       res.status(200).json(ratings);
    } catch (error) {
        res.status(404).json({message: error.message});
    }
@@ -14,7 +14,7 @@ export const getRatings = async (req, res) => {
 export const createRating = async (req, res) => {
     const rating = req.body;
 
-    const newRating = new MovieRating(rating);
+    const newRating = new Rating(rating);
 
     try {
         await newRating.save();

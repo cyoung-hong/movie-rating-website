@@ -18,6 +18,6 @@ const ratingSchema = mongoose.Schema({
     },
 })
 
-const MovieRating = mongoose.model(`MovieRating`, ratingSchema);
+const Rating = mongoose.model(`Rating`, ratingSchema);
 
-export default MovieRating;
+export default Rating;

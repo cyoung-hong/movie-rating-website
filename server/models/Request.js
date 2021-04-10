@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const recommendationSchema = mongoose.Schema({
+const requestSchema = mongoose.Schema({
     recommender: {
         id: String,
         name: String
@@ -26,6 +26,6 @@ const recommendationSchema = mongoose.Schema({
     },
 })
 
-const MovieRecommendation = mongoose.model(`MovieRecommendation`, recommendationSchema);
+const Request = mongoose.model(`Request`, requestSchema);
 
-export default MovieRecommendation;
+export default Request;
