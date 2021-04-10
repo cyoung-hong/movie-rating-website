@@ -13,9 +13,6 @@ passport.use(
         if (!user) {
           return done(null, false);
         }
-        console.log(user);
-        console.log(password);
-
         bcrypt.compare(password, user.password).then((res) => {
           if (res) {
             return done(null, user);
@@ -31,11 +28,11 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.email);
+  done(null, user._id);
 });
 
-passport.deserializeUser((email, done) => {
-  User.findOne({ email }, (err, user) => {
+passport.deserializeUser((_id, done) => {
+  User.findById(_id, (err, user) => {
     if (err) {
       return done(err);
     }

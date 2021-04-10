@@ -8,8 +8,8 @@ const initialData = {
 const authReducer = (state = initialData, action) => {
   switch (action.type) {
     case AUTH:
-      localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
-      return { ...state, authData: action?.data, test: "What" };
+      console.log(action.data);
+      return { ...state, authData: action?.data};
     case "SET_ERROR":
       console.log("AUTH REDUCER ========= " + action.data.message);
       return { ...state, test: action.data };

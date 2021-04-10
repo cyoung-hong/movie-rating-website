@@ -5,15 +5,12 @@ import passport from "../middleware/Passport/setup.js";
 
 import User from "../models/user.js";
 
-export const ppLogin = passport.authenticate("local-login", {
-  successRedirect: "/api/auth/login-success",
-  failureRedirect: "/api/auth/login-failure",
-});
+export const ppLogin = passport.authenticate("local-login");
 
+// TODO CONTINUE FIGURING OUT HOW TO CONNECT THE FRONT END TO BACKEND
 export const loginSuccess = (req, res) => {
   console.log(req.session);
-  console.log(req.user);
-  res.send("Success");
+  res.send(req.session);
 };
 
 export const loginFailure = (req, res) => {
@@ -23,7 +20,7 @@ export const loginFailure = (req, res) => {
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log('You shouldnt be here traveller.');
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser)
