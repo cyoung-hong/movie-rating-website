@@ -15,8 +15,9 @@ export const fetchRatings = () => API.get('/ratings');
 export const getRecommendations = () => API.get('/recommendations');
 export const createRecommendation = (movieData) => API.post('/recommendations/create', movieData);
 
-export const signIn = (formData) => API.post('/user/signin', formData);
-export const signUp = (formData) => API.post('/user/signup', formData)
+export const signIn = (formData) => API.post('/auth/signin', formData);
+export const signUp = (formData) => API.post('/auth/signup', formData);
+export const logIn = (formData) => API.post('/auth/login-passport', formData);
 
 // TMDB
 // Must correspond to controller endpoint
