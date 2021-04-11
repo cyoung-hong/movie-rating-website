@@ -16,26 +16,26 @@ export const getRequest = async (req, res) => {
   }
 };
 
+// 
 export const createRequest = async (req, res) => {
   // Check is user is authenticated
   // Check if user made request already
   // -- 
-  try {
+  //try {
     if (req.isAuthenticated()) {
-      const foundRequest = await Request.find
+      //const foundRequest = await Request.find
+      console.log(req.body);
 
+      const request = req.body;
+      request.recommender = req.user.name;
+      request.createdAt = new Date();
 
-      const recommendation = req.body;
-      recommendation.recommender = req.user.name;
-      recommendation.createdAt = new Date();
-
-
-      res.status(201).json({ recommendation });
+      res.status(201).json({ request });
     }
     else {
-      // Add redirect to login
+      //Add redirect to login
       console.log("Redirecting...");
       res.status(401).json({ error: "Unauthorized, please sign in." });
     }
-  } catch (err) {}
+  //} catch (err) {}
 };
