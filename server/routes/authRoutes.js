@@ -5,6 +5,7 @@ import {
   signin,
   signup,
   ppLogin,
+  loginTest,
   loginSuccess,
   loginFailure,
 } from "../controllers/authController.js";
@@ -18,25 +19,43 @@ router.get("/", (req, res) => {
 router.post("/signin", signin);
 router.post("/signup", signup);
 
-router.post('/login-test', passport.authenticate('local-login', {
-  successRedirect: '/api/auth/login-success',
-  failureRedirect: '/api/auth/login-failure',
-}));
+router.post("/login", passport.authenticate("local-login"), (req, res) => {
+  if (req.isAuthenticated()) {
+    const user = req.user.name;
+    res.status(201).json(user);
+  } else {
+    res.json({
+      error: {
+        status: 401,
+        message: "User not found",
+      },
+    });
+  }
+});
 
-router.get('/login-authenticated', (req, res) => {
-  console.log('Authenticated route');
-  if(req.user) {console.log(req); }
-  else {
-    res.json({msg: 'Session expired'}); 
+router.post("/login-test", loginTest);
+
+router.get("/login-authenticated", (req, res) => {
+  console.log("Authenticated route");
+  if (req.user) {
+    console.log(req);
+  } else {
+    res.json({ msg: "Session expired" });
   }
   //console.log(res.user);
   res.send(req?.user);
-})
+});
+
 router.get("/login-success", loginSuccess);
 router.get("/login-failure", loginFailure);
 
-export default router;
+router.get('/user', (req, res) => {
+  if(req.isAuthenticated()) {
+    res.send(req.user.name);
+  }
+})
 
+export default router;
 
 // router.post(
 //   "/login-passport",

@@ -7,10 +7,15 @@ import User from "../models/user.js";
 
 export const ppLogin = passport.authenticate("local-login");
 
-// TODO CONTINUE FIGURING OUT HOW TO CONNECT THE FRONT END TO BACKEND
+export const loginTest = passport.authenticate("local-login", {
+  successRedirect: "/api/auth/login-success",
+  failureRedirect: "/api/auth/login-failure",
+});
+
 export const loginSuccess = (req, res) => {
-  console.log(req.session);
-  res.send(req.session);
+  console.log(req.user);
+  const user = req.user;
+  res.send(user);
 };
 
 export const loginFailure = (req, res) => {
@@ -20,7 +25,7 @@ export const loginFailure = (req, res) => {
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log('You shouldnt be here traveller.');
+  console.log("You shouldnt be here traveller.");
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser)
