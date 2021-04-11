@@ -15,7 +15,13 @@ passport.use(
         }
         bcrypt.compare(password, user.password).then((res) => {
           if (res) {
-            return done(null, user);
+            const resUser = {
+              _id: res._id,
+              recommendations: res.recommendations,
+              email: res.email,
+              name: res.name,
+            }
+            return done(null, resUser);
           } else {
             return done(null, false);
           }
