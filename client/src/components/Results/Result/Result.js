@@ -5,19 +5,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useDispatch } from 'react-redux';
-
 import { Card, CardContent, CardMedia } from "@material-ui/core";
-
 import { makeStyles } from "@material-ui/core/styles";
-
-import { createRecommendation } from '../../../redux/actions/recommendationActions.js';
-
-
-//import useStyles from './styles';
-
-// const handleClick = (event) => {
-
-// }
+import { createRequest } from '../../../redux/actions/requestActions.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,24 +31,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Result = ({result}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleClick = (event) => {
-    //console.log(Date.now());
+    console.log('Step 1: Creating movieData object');
     const movieData = {
       movie: {
         tmdbID: result.id,
         title: result.original_title,
         year: result.release_date,
         posterUrl: result.poster_path,
-        genres: result.genres,
+        //genres: result.genres,
       }
     };
-    
-    dispatch(createRecommendation(movieData));
+    console.log('Step 2: Dispatch object');
+    console.log(movieData);
+    dispatch(createRequest(movieData));
   }
   
   return (
