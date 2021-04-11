@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 //MUI
@@ -22,20 +22,23 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [user, setUser] = useState(null);
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     history.push("/");
-    setUser(null);
+    setUser('');
   };
 
+  const userName = useSelector((state) => state.authReducer.authData.name);
+
   useEffect(() => {
-    const token = user?.token;
-
+    //const token = user?.token;
+    
     // JWT...
-
-    setUser(JSON.parse(localStorage.getItem("profile")));
+    setUser(userName);
+    console.log(user);
+    //setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
   return (
@@ -57,10 +60,10 @@ const Navbar = () => {
               </Button>
             </Grid>
           </Grid>
-          {user?.result ? (
+          {user !== '' ? (
             <Grid container className={classes.subMenu} spacing={2} alignItems="center">
               <Typography className={classes.userName} variant="h6">
-                {user?.result.name}
+                {user}
               </Typography>
               <Grid item>
                 <Button
