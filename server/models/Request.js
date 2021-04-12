@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
 const requestSchema = mongoose.Schema({
-    recommender: {
+    requester: {
         id: String,
         name: String
     },
     movie: {
         tmdbID: Number,
         title: String,
-        year: Number,
+        year: String,
         posterUrl: String, 
         runtime: Number, 
         genres: [{

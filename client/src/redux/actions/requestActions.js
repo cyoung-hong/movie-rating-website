@@ -21,6 +21,6 @@ export const createRequest = (request) => async (dispatch) => {
     // If successful, redirect somewhere
     // If unsuccessful, to be determined
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
