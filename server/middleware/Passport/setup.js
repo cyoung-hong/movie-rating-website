@@ -15,13 +15,7 @@ passport.use(
         }
         bcrypt.compare(password, user.password).then((res) => {
           if (res) {
-            const resUser = {
-              _id: res._id,
-              recommendations: res.recommendations,
-              email: res.email,
-              name: res.name,
-            }
-            return done(null, resUser);
+            return done(null, user);
           } else {
             return done(null, false);
           }
@@ -37,8 +31,8 @@ passport.serializeUser((user, done) => {
   done(null, user._id);
 });
 
-passport.deserializeUser((_id, done) => {
-  User.findById(_id, (err, user) => {
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
     if (err) {
       return done(err);
     }

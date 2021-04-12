@@ -5,7 +5,6 @@ const userSchema = mongoose.Schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
     id: {type: String},
-    recommendations: [Number],
 })
 
 const User = mongoose.model(`User`, userSchema);
