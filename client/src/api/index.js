@@ -13,11 +13,11 @@ API.interceptors.request.use((req) => {
 export const fetchRatings = () => API.get('/ratings');
 
 export const getRequest = () => API.get('/requests');
-export const createRequest = (movieData) => {API.post('/requests/create', movieData)};
+export const createRequest = (movieData) => API.post('/requests/create', movieData, {withCredentials: true});
 
 export const signIn = (formData) => API.post('/auth/signin', formData);
 export const signUp = (formData) => API.post('/auth/signup', formData);
-export const logIn = (formData) => API.post('/auth/login', formData);
+export const logIn = (formData) => API.post('/auth/login', formData, {withCredentials: true});
 
 // TMDB
 // Must correspond to controller endpoint
