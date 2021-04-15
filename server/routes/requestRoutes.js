@@ -1,5 +1,13 @@
 import express from "express";
-import { getRequest, getRequests, createRequest } from "../controllers/requestController.js";
+import {
+  getRequests,
+  getMyRequests,
+  getRequestById,
+  createRequest,
+  getRequestsByUser,
+  deleteRequest,
+  updateRequest,
+} from "../controllers/requestController.js";
 import Request from "../models/Request.js";
 
 import passport from "../middleware/Passport/setup.js";
@@ -8,6 +16,16 @@ import auth from "../middleware/Passport/auth.js";
 const router = express.Router();
 
 router.get("/", getRequests);
+//router.get("/request/:filter/:id", getRequestTest);
+router.get("/request/myRequests", getMyRequests);
+router.get("/request/user/:userId", getRequestsByUser);
+router.get("/request/:id", getRequestById);
+
 router.post("/create", createRequest);
+
+// FINISH PUT
+router.patch("/request/update/:id", updateRequest);
+
+router.delete("/request/delete/:id", deleteRequest);
 
 export default router;
