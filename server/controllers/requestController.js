@@ -1,6 +1,24 @@
 import Request from "../models/Request.js";
 import User from "../models/user.js";
+import mongoose from "mongoose";
 
+// axios.get(`/request/${filter}/${id}`)
+export const getRequestTest = async (req, res) => {
+  const { filter } = req.params.filter;
+  const { id } = req.params.id;
+
+  if(filter === '') {
+    const requests = await Request.find(); 
+  } 
+
+  if(filter === 'self') {
+    const requests = await Request.find({'requester.id': req.user._id});
+  }
+
+  const requests = await Request.find({ })
+}
+
+// Get all users recommendations
 export const getRequests = async (req, res) => {
   try {
     const requests = await Request.find();
@@ -10,20 +28,49 @@ export const getRequests = async (req, res) => {
   }
 };
 
-export const getRequestById = async (req, res) => {
+// Get current user's recommendations
+export const getMyRequests = async (req, res) => {
   try {
-    const request = await Request.findById(req.body.request._id);
-    if (request) {
-      res.status(200).json({ request });
+    if (req.isAuthenticated()) {
+      const myRequests = await Request.find({ "requester.id": req.user._id });
+      res.status(200).json(myRequests);
     } else {
-      res.status(404).json({ msg: "Request not found" });
+      res.status(401).json({ message: "Unauthorized, please login." });
+    }
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
+// Get selected user's recommendations
+export const getRequestsByUser = async (req, res) => {
+  try {
+    const userRequests = await Request.find({
+      "requester.id": req.params.userId,
+    });
+    if (userRequests) {
+      res.status(200).json({ userRequests });
+    } else {
+      res.status(404).json({ message: "This user has no recommendations." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-export const getRequestByUser = (userID = async (req, res) => {});
+// Get specific request by id
+export const getRequestById = async (req, res) => {
+  try {
+    const request = await Request.findById(req.params.id);
+    if (request) {
+      res.status(200).json({ request });
+    } else {
+      res.status(404).json({ message: "Request not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const createRequest = async (req, res) => {
   // Check is user is authenticated
@@ -41,8 +88,10 @@ export const createRequest = async (req, res) => {
       });
 
       if (foundRequest) {
-        res.status(409).json({ msg: "Request already exists." });
-      } else {
+        res.status(409).json({ error: "Request already exists." });
+      } 
+
+      else {
         const newRequest = new Request({
           requester: {
             id: req.user._id,
@@ -70,5 +119,34 @@ export const createRequest = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(502).json({ err });
+  }
+};
+
+// Just add watchedOn date as todays date when called
+export const updateRequest = async (req, res) => {
+  try {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(404).json({ message: 'Invalid ID.'});
+
+    const updReq = await Request.findByIdAndUpdate(req.params.id, { watchedOn: new Date() });
+
+    if (updReq) { res.status(202).json({ message: 'Request updated successfully!'}); }
+    else { res.status(404).json({ message: "Request not found." }); }
+
+  } catch (err) {
+    res.status(502).json({ err });
+  }
+};
+
+export const deleteRequest = async (req, res) => {
+  try {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(404).json({ message: 'Invalid ID.'});
+
+    const delRequest = await Request.findByIdAndDelete(req.params.id);
+
+    if (delRequest) { res.status(202).json({ message: "Deleted successfully." }); } 
+    else { res.status(404).json({ message: "Request not found." }); }
+
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
