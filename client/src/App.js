@@ -15,17 +15,11 @@ import Auth from "./components/Auth/Auth.js";
 import Results from "./components/Results/Results.js";
 
 axios.defaults.baseURL = "https:/localhost:8082/api/";
+axios.defaults.withCredentials = true;
 
 const theme = createMuiTheme(themeFile);
 
 const App = () => {
-  //const classes = useStyle();
-  //const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch();
-  // }, []);
-
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>

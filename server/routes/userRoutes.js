@@ -1,10 +1,4 @@
-import express from "express";
-
-import { signin, signup } from "../controllers/userController.js";
-
-const router = express.Router();
-
-router.post("/signin", signin);
-router.post("/signup", signup);
-
-export default router;
+// CONTINUE HERE
+// MAKE A DASHBOARD
+// NEED TO LIST ALL OF THE USERS RECOMMENDATIONS
+// ALSO CONSIDER ERROR HANDLER
