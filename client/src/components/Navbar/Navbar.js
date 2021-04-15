@@ -22,23 +22,20 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     history.push("/");
-    setUser('');
   };
 
-  const userName = useSelector((state) => state.authReducer.authData.name);
+  const userName = useSelector((state) => state.authReducer.authData);
 
   useEffect(() => {
     //const token = user?.token;
-    
     // JWT...
     setUser(userName);
     console.log(user);
-    //setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
   return (
@@ -60,7 +57,7 @@ const Navbar = () => {
               </Button>
             </Grid>
           </Grid>
-          {user !== '' ? (
+          {user != '' ? (
             <Grid container className={classes.subMenu} spacing={2} alignItems="center">
               <Typography className={classes.userName} variant="h6">
                 {user}
