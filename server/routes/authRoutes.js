@@ -20,7 +20,6 @@ router.post("/signin", signin);
 router.post("/signup", signup);
 
 router.post("/login", passport.authenticate("local-login"), (req, res) => {
-  //console.log("test");
   if (req.isAuthenticated()) {
     const user = req.user.name;
     res.status(201).json(user);
