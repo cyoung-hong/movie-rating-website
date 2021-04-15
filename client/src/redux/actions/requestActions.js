@@ -13,14 +13,13 @@ export const getRequests = () => async (dispatch) => {
 // TODO createRequest functionality
 export const createRequest = (request) => async (dispatch) => {
   try {
-    console.log("Step 3: In createRequest action with request data.");
-    console.log(request);
-    await api.createRequest(request);
-    
-    //console.log(data);
-    // If successful, redirect somewhere
-    // If unsuccessful, to be determined
+    const result = await api.createRequest(request);
+    if(result) {
+      alert(`${result.data.savedReq.movie.title} succesfully added!`);
+    } 
+
   } catch (error) {
-    console.log(error.message);
+    console.log(error.response);
+    console.log(error.response.data);
   }
 };
