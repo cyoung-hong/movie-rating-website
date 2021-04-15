@@ -59,11 +59,11 @@ export const signup = async (req, res) => {
     if (existingUser) {
       //throw createError(400, 'User already exists');
       //return next(new Error("User already exists"));
-      return res.status(400).send({ message: "User already exists." });
+      return res.status(400).send({ error: "User already exists." });
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).send({ message: "Passwords do not match." });
+      return res.status(400).send({ error: "Passwords do not match." });
     }
 
     // Salt password, default genSalt(10)
@@ -76,12 +76,8 @@ export const signup = async (req, res) => {
       name: `${firstName} ${lastName}`,
     });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, "test", {
-      expiresIn: "1h",
-    });
-
     // Use is not saved? I think create actually makes it so you don't need to save.
-    res.status(200).json({ result, token });
+    res.status(200).json({ username: result.name });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }
