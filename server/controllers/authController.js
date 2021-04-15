@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import passport from "../middleware/Passport/setup.js";
 
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 export const ppLogin = passport.authenticate("local-login");
 
