@@ -1,5 +1,5 @@
 import Request from "../models/Request.js";
-import User from "../models/user.js";
+import User from "../models/User.js";
 import mongoose from "mongoose";
 
 // axios.get(`/request/${filter}/${id}`)
