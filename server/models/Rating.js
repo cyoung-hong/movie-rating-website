@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 
 const ratingSchema = mongoose.Schema({
-    rater: String,
+    rater: {id: String, username: String},
     rating: Number,
     comment: String,
     movie: {
         title: String,
-        id: String,
+        tmdbID: String,
+        watchedOn: Date,
     },
     createdAt: {
         type: Date,

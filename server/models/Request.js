@@ -16,13 +16,14 @@ const requestSchema = mongoose.Schema({
             name: String,
         }],
     },
+    priority: Number,
+    group: String, 
     createdAt:{
         type: Date,
         default: new Date()
     },
-    lastModified: {
+    watchedOn: {
         type: Date,
-        default: new Date()
     },
 })
 
