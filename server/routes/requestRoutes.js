@@ -11,7 +11,6 @@ import {
 import Request from "../models/Request.js";
 
 import passport from "../middleware/Passport/setup.js";
-import auth from "../middleware/Passport/auth.js";
 
 const router = express.Router();
 
