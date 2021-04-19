@@ -1,6 +1,5 @@
 // LOOK INTO EXPRESS VALIDATOR
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import passport from "../middleware/Passport/setup.js";
 
 import User from "../models/User.js";
@@ -25,7 +24,7 @@ export const loginFailure = (req, res) => {
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log("You shouldnt be here traveller.");
+
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser)
@@ -38,12 +37,6 @@ export const signin = async (req, res) => {
 
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid credentials." });
-
-    const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
 
     res.status(200).json({ result: existingUser, token });
   } catch (err) {
