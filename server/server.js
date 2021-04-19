@@ -10,6 +10,7 @@ import tmdbRoutes from "./service/tmdb.js";
 import ratingRoutes from "./routes/ratingRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import requestRoutes from "./routes/requestRoutes.js";
+import groupRoutes from "./routes/groupRoutes.js";
 
 //import passport from "./middleware/Passport/setup.js";
 import passport from "passport";
@@ -60,6 +61,7 @@ app.use("/api/tmdb", tmdbRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes);
 
 // Potential error handler
 // app.use(async (req, res, next) => {
