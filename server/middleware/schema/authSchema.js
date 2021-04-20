@@ -18,8 +18,8 @@ const pwOptions = {
 
 export const signupSchema = [
   body("username").exists({ checkFalsy: true }).escape().isAlphanumeric(),
-  body("firstName"),
-  body("lastName"),
+  body("firstName").ltrim().rtrim(),
+  body("lastName").ltrim().rtrim(),
   body("email").trim().escape().isEmail().normalizeEmail().custom(emailInUse),
   body("password").isStrongPassword(pwOptions).withMessage(
       "Password must be at least 8 characters long, and contain one uppercase, one lowercase, and one number"

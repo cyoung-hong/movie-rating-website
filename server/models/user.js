@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     lastName: String,
     email: {type: String, required: true},
     password: {type: String, required: true},
-    picturePath: String,
+    picturePath: {type: String, default: '../public/resumes/default.png'},
     activeGroup: String,
     groups: [{id: String}]
 })

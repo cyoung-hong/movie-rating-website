@@ -18,7 +18,6 @@ export const loginSuccess = (req, res) => {
 };
 
 export const loginFailure = (req, res) => {
-  //console.log(req);
   res.send("Cap");
 };
 
@@ -38,25 +37,20 @@ export const signin = async (req, res) => {
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid credentials." });
 
-    res.status(200).json({ result: existingUser, token });
+    res.status(200).json({ result: existingUser });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
 
 export const signup = async (req, res) => {
-  const { email, password, confirmPassword, firstName, lastName } = req.body;
+  const { username, firstName, lastName, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      //throw createError(400, 'User already exists');
-      //return next(new Error("User already exists"));
       return res.status(400).send({ error: "User already exists." });
-    }
-
-    if (password !== confirmPassword) {
-      return res.status(400).send({ error: "Passwords do not match." });
     }
 
     // Salt password, default genSalt(10)
@@ -64,13 +58,14 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const result = await User.create({
+      username,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
-      name: `${firstName} ${lastName}`,
     });
 
-    // Use is not saved? I think create actually makes it so you don't need to save.
-    res.status(200).json({ username: result.name });
+    res.status(200).json({ message: `${username} successfully created!`});
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }

@@ -10,7 +10,8 @@ import {
   loginFailure,
 } from "../controllers/authController.js";
 
-import {body, validationResult} from 'express-validator';
+import {signupSchema, signinSchema} from '../middleware/schema/authSchema.js';
+import {validateRequest} from '../middleware/validateRequest.js';
 
 const router = express.Router();
 
@@ -18,15 +19,9 @@ router.get("/", (req, res) => {
   res.send("Hi from /auth/");
 });
 
-router.post("/signin", signin);
-router.post("/signup", signup);
+router.post("/signin", signinSchema, validateRequest, signin);
+router.post("/signup", signupSchema, validateRequest, signup);
 
-import {signupSchema} from '../middleware/schema/authSchema.js';
-import {validateRequest} from '../middleware/validateRequest.js';
-
-router.post("/test", signupSchema, validateRequest, (req, res) => {
-  res.sendStatus(201);
-})
 
 router.post("/login", passport.authenticate("local-login"), (req, res) => {
   if (req.isAuthenticated()) {
@@ -43,7 +38,6 @@ router.post("/login", passport.authenticate("local-login"), (req, res) => {
 });
 
 router.post("/login-test", loginTest);
-
 router.get("/login-success", loginSuccess);
 router.get("/login-failure", loginFailure);
 
@@ -51,6 +45,11 @@ router.get('/user', (req, res) => {
   if(req.isAuthenticated()) {
     res.send(req.user.name);
   }
+})
+
+// TEST ROUTES, REMOVE WHEN NOT NEEDED
+router.post("/test", signupSchema, validateRequest, (req, res) => {
+  res.sendStatus(201);
 })
 
 export default router;
