@@ -29,22 +29,58 @@ export const getGroupById = async (req, res) => {
 };
 
 // Create group
+// TODO CHECK WHY IS STORED?!
 export const createGroup = async (req, res) => {
   try {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
       const data = req.body;
+      const array = [];
 
-      
+      const existingGroup = await Group.findOne({ groupName: data.groupName });
+      //Check if a group exists with the same name
+      if (existingGroup) {
+        return res
+          .status(400)
+          .send({ message: "A group with that name already exists" });
+      }
+
+      const foundingMember = {
+        username: req.user.username,
+        picturePath: req.user.picturePath,
+        role: "admin",
+      };
+
+      array.push(foundingMember);
+
+      const newGroup = new Group({
+        groupName: data.groupName,
+        members: array,
+      });
+
+      newGroup
+        .save()
+        .then((savedReq) => {
+          console.log("New group");
+          console.log(newGroup);
+          res.status(201).json({ savedReq });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      //Add redirect to login
+      console.log("Redirecting...");
+      res.status(401).json({ error: "Unauthorized, please sign in." });
     }
   } catch (error) {
-    res.status(500).json({error});
+    console.log("Group creation error");
+    res.status(500).json({ error });
   }
 };
 
 // Add/invite? user to group
-export const addUser = async (req, res) => {
-    
-};
+// TO DO NEXT
+export const addUser = async (req, res) => {};
 
 // Change user's role
 export const changeUserRole = async (req, res) => {};
