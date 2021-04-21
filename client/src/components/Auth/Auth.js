@@ -48,7 +48,6 @@ const Auth = () => {
 
   const handleShowPassword = () => {
     console.log("Is signup, ====== " + isSignup);
-
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 

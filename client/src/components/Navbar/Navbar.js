@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { logOut } from "../../redux/actions/authActions.js";
 
 //MUI
 import {
@@ -22,20 +23,19 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const [user, setUser] = useState('');
 
-  const logout = () => {
-    dispatch({ type: "LOGOUT" });
-    history.push("/");
+  const authData = useSelector(state => state.authReducer.authData);
+
+  const [user, setUser] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleClick = () => {
+    dispatch(logOut());
   };
 
-  const userName = useSelector((state) => state.authReducer.authData);
-
   useEffect(() => {
-    //const token = user?.token;
-    // JWT...
-    setUser(userName);
-    console.log(user);
+    setUser(authData.user);
+    setLoggedIn(true);
   }, [location]);
 
   return (
@@ -57,17 +57,17 @@ const Navbar = () => {
               </Button>
             </Grid>
           </Grid>
-          {user != '' ? (
+          {authData.user ? (
             <Grid container className={classes.subMenu} spacing={2} alignItems="center">
               <Typography className={classes.userName} variant="h6">
-                {user}
+                {authData.user.username}
               </Typography>
               <Grid item>
                 <Button
                   variant="contained"
                   className={classes.logout}
                   color="secondary"
-                  onClick={logout}
+                  onClick={handleClick}
                 >
                   Logout
                 </Button>
