@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Result = ({result}) => {
+const ResultDetail = ({result}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -75,4 +75,4 @@ const Result = ({result}) => {
   );
 };
 
-export default Result;
+export default ResultDetail;

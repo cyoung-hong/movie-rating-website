@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 import { Grid, CircularProgress, CssBaseline } from "@material-ui/core";
 
-import Result from "./Result/Result.js";
+import ResultDetail from "./ResultDetail/ResultDetail.js";
 
 const useStyles = makeStyles((theme) => ({
   resultContainer: {
@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Results = () => {
-  const results = useSelector((state) => state.tmdbReducer.results);
+const ResultList = () => {
+  const resultList = useSelector((state) => state.tmdbReducer.results);
   const classes = useStyles();
 
-  return !results?.length ? (
+  return !resultList?.length ? (
     <React.Fragment>
       <CssBaseline />
       <CircularProgress />
@@ -27,9 +27,9 @@ const Results = () => {
     <React.Fragment>
       <CssBaseline />
       <Grid container className={classes.resultContainer}>
-        {results.map((result) => (
+        {resultList.map((result) => (
           <Grid key={result.id} item xs={8}>
-            <Result result={result} />
+            <ResultDetail result={result} />
           </Grid>
         ))}
       </Grid>
@@ -37,4 +37,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default ResultList;
