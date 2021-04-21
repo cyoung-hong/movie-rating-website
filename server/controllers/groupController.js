@@ -29,7 +29,7 @@ export const getGroupById = async (req, res) => {
 };
 
 // Create group
-// TODO CHECK WHY IS STORED?!
+// TODO CHECK WHY ID STORED?!
 export const createGroup = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
