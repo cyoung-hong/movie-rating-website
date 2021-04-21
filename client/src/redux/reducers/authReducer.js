@@ -1,17 +1,17 @@
 import { AUTH, USER_SIGNUP, LOGOUT } from "../actionTypes.js";
 
 const initialData = {
-  authData: '',
+  authData: {},
 };
 
 const authReducer = (state = initialData, action) => {
   switch (action.type) {
     case AUTH:
+      console.log(action.data);
       return {
         ...state,
-        authData: {
-          name: action?.data,
-        },
+        authData: action?.data,
+        loggedIn: true,
       };
     case "SET_ERROR":
       console.log("AUTH REDUCER ========= " + action.data.message);
@@ -21,7 +21,7 @@ const authReducer = (state = initialData, action) => {
       console.log(action);
       return { ...state, authData: action?.data};
     case LOGOUT:
-      return { ...state, authData: '' };
+      return { ...state, authData: initialData, loggedIn: false, };
     default:
       return state;
   }

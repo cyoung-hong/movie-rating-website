@@ -15,8 +15,14 @@ import { validateRequest } from "../middleware/validateRequest.js";
 
 const router = express.Router();
 
-router.post("/signin", signinSchema, validateRequest, passport.authenticate('local-login'), signin);
+router.post("/signin", passport.authenticate('local-login'), signin);
+
 router.post("/signup", signupSchema, validateRequest, signup);
+
+router.get("/logout", (req,res) => {
+  req.logOut();
+  res.status(200).json({message: "Logged out."});
+})
 
 // Unsure if needed.
 router.post("/login-test", loginTest);
@@ -40,18 +46,18 @@ router.post("/test", signupSchema, validateRequest, (req, res) => {
 
 // Has error handling  middleware example
 //
-// router.post("/login", passport.authenticate("local-login"), (req, res) => {
-//   if (req.isAuthenticated()) {
-//     const user = req.user.name;
-//     res.status(201).json(user);
-//   } else {
-//     res.json({
-//       error: {
-//         status: 401,
-//         message: "User not found",
-//       },
-//     });
-//   }
-// });
+router.post("/login", passport.authenticate("local-login"), (req, res) => {
+  if (req.isAuthenticated()) {
+    const user = req.user.name;
+    res.status(201).json(user);
+  } else {
+    res.json({
+      error: {
+        status: 401,
+        message: "User not found",
+      },
+    });
+  }
+});
 
 export default router;
