@@ -26,7 +26,8 @@ export const signin = async (req, res) => {
 
   try {
     const existingUser = await User.findOne({ email });
-    if (!existingUser)
+
+    if (!existingUser) 
       return res.status(404).json({ message: "User doesn't exist." });
 
     const isPasswordCorrect = await bcrypt.compare(
@@ -39,7 +40,7 @@ export const signin = async (req, res) => {
 
     const user = {
       username: existingUser.username,
-      email: existingUser.email,
+      posterPath: existingUser.posterPath,
     }
 
     res.status(200).json({ user });

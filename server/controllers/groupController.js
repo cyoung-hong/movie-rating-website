@@ -60,8 +60,6 @@ export const createGroup = async (req, res) => {
       newGroup
         .save()
         .then((savedReq) => {
-          console.log("New group");
-          console.log(newGroup);
           res.status(201).json({ savedReq });
         })
         .catch((err) => {
@@ -69,7 +67,7 @@ export const createGroup = async (req, res) => {
         });
     } else {
       //Add redirect to login
-      console.log("Redirecting...");
+      console.log("Error, redirecting...");
       res.status(401).json({ error: "Unauthorized, please sign in." });
     }
   } catch (error) {
@@ -80,7 +78,9 @@ export const createGroup = async (req, res) => {
 
 // Add/invite? user to group
 // TO DO NEXT
-export const addUser = async (req, res) => {};
+export const addUser = async (req, res) => {
+  
+};
 
 // Change user's role
 export const changeUserRole = async (req, res) => {};
