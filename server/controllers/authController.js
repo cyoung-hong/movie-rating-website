@@ -22,27 +22,13 @@ export const loginFailure = (req, res) => {
 };
 
 export const signin = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const existingUser = await User.findOne({ email });
-
-    if (!existingUser) 
-      return res.status(404).json({ message: "User doesn't exist." });
-
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-
-    if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Invalid credentials." });
-
+    const { _id, username, picturePath } = req.user;
     const user = {
-      username: existingUser.username,
-      posterPath: existingUser.posterPath,
-    }
-
+      id: _id,
+      username,
+      picturePath,
+    };
     res.status(200).json({ user });
   } catch (err) {
     console.log(err);
@@ -71,7 +57,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(200).json({ message: `${username} successfully created!`});
+    res.status(200).json({ message: `${username} successfully created!` });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }
