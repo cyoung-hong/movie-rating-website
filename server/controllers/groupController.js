@@ -162,12 +162,20 @@ export const changeUserRole = async (req, res) => {
       (m) => m.username === user.username
     );
 
+    // =====================================================================================
+    // Consider refactoring into single function that returns a boolean
+    // =====================================================================================
     // Checks
     // Check user is logged in
     if (!req.isAuthenticated()) {
       return res
         .status(401)
         .json({ message: "Unauthorized access. Please login." });
+    }
+
+    // That the group exists
+    if (!existingGroup) {
+      return res.status(404).json({ message: "Group cannot be found." });
     }
 
     // Check that the user is an admin of the group
