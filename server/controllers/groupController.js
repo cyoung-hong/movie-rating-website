@@ -1,4 +1,10 @@
 import Group from "../models/Group.js";
+import GroupInquiry from "../models/GroupInquiry.js";
+
+const roleCheck = (user, group) => {
+  const member = group.members.find((m) => m.username === user.username);
+  return member?.role;
+};
 
 // Get groups
 export const getGroups = async (req, res) => {
@@ -29,12 +35,11 @@ export const getGroupById = async (req, res) => {
 };
 
 // Create group
-// TODO CHECK WHY ID STORED?!
 export const createGroup = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
       const data = req.body;
-      const array = [];
+      const members = [];
 
       const existingGroup = await Group.findOne({ groupName: data.groupName });
       //Check if a group exists with the same name
@@ -49,12 +54,11 @@ export const createGroup = async (req, res) => {
         picturePath: req.user.picturePath,
         role: "admin",
       };
-
-      array.push(foundingMember);
+      members.push(foundingMember);
 
       const newGroup = new Group({
         groupName: data.groupName,
-        members: array,
+        members: members,
       });
 
       newGroup
@@ -79,11 +83,134 @@ export const createGroup = async (req, res) => {
 // Add/invite? user to group
 // TO DO NEXT
 export const addUser = async (req, res) => {
-  
+  try {
+    const { group, user } = req.body;
+
+    const inquiry = await GroupInquiry.findOne({
+      "group.id": group.id,
+      "user.id": user.id,
+    });
+    const existingGroup = await Group.findOne({ _id: group.id });
+
+    if (!req.isAuthenticated()) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized access. Please login." });
+    }
+    // Check that the user is an admin of the group
+    if (roleCheck(req.user, existingGroup) !== "admin") {
+      return res.status(401).json({
+        message:
+          "You do not have permissions to add users. Please contact a group admin.",
+      });
+    }
+
+    // That the request exists
+    if (!inquiry) {
+      return res.status(404).json({ message: "Inquiry does not exist." });
+    }
+
+    // That the group exists
+    if (!existingGroup) {
+      return res.status(404).json({ message: "Group cannot be found." });
+    }
+
+    // That the applicant is not already a member, if they are delete the inquiry
+    if (roleCheck(user, existingGroup)) {
+      const deleteInquiry = await GroupInquiry.deleteOne({ _id: inquiry._id });
+      if (deleteInquiry) {
+        return res.status(409).json({
+          message:
+            "User is already a member of the group. Deleting join request.",
+        });
+      }
+    }
+
+    existingGroup.members.push(user);
+
+    const savedGroup = await existingGroup.save();
+    if (!savedGroup) {
+      return res
+        .status(500)
+        .json({ message: "Something went wrong, could not save group." });
+    }
+
+    if (savedGroup) {
+      const deleteInquiry = await GroupInquiry.deleteOne({ _id: inquiry._id });
+      if (deleteInquiry) {
+        return res.status(201).json({ savedGroup });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
 };
 
-// Change user's role
-export const changeUserRole = async (req, res) => {};
+// POST: Change user's role
+// Req.body
+// {
+//    group: { id, groupName},
+//    user: { id, username, picturePath},
+//    newRole: "admin"/"member",
+// }
+export const changeUserRole = async (req, res) => {
+  try {
+    const { group, user, newRole } = req.body;
+    const existingGroup = await Group.findOne({ _id: group.id });
+    const member = existingGroup.members.find(
+      (m) => m.username === user.username
+    );
+
+    // Checks
+    // Check user is logged in
+    if (!req.isAuthenticated()) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized access. Please login." });
+    }
+
+    // Check that the user is an admin of the group
+    if (roleCheck(req.user, existingGroup) !== "admin") {
+      return res.status(401).json({
+        message:
+          "You do not have permissions to add users. Please contact a group admin.",
+      });
+    }
+
+    // Check that user who is having their role changed is a part of the group
+    if (!roleCheck(user, existingGroup)) {
+      return res
+        .status(404)
+        .json({ message: "User is not a member of the group." });
+    }
+
+    // Check that user role being changed is actually different
+    if (roleCheck(user, existingGroup) === newRole) {
+      return res
+        .status(400)
+        .json({ message: `User is already a(n) ${newRole}` });
+    }
+
+    const result = await Group.updateOne(
+      { _id: existingGroup._id, "members.username": user.username },
+      {
+        $set: {
+          "members.$.role": newRole,
+        },
+      }
+    );
+
+    if (result.nModified === 1) {
+      return res
+        .status(201)
+        .json({ message: `${user.username}'s role changed to ${newRole}` });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
 
 // Remove user from group
 export const removeUser = async (req, res) => {};
