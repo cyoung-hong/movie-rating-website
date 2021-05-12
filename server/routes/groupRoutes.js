@@ -16,12 +16,25 @@ router.post("/create", createGroup);
 router.post("/add", addUser);
 router.post("/change", changeUserRole);
 
-router.post("/test", async (req, res) => {
-  const {group} = req.body;
+import { body } from "express-validator";
+import User from "../models/User.js";
+import { validateRequest } from "../middleware/validateRequest.js";
 
-  const existingGroup = await Group.findOne({ _id: group.id});
-  console.log(req.user);
-  console.log(adminCheck(req.user, existingGroup));
-});
+router.post(
+  "/test",
+  passport.authenticate("local-login"),
+  body().custom((value) => {
+    const { group, user } = value;
+    console.log(value);
+    console.log(group);
+    console.log(user);
+  }),
+  validateRequest,
+  passport.authenticate("local-login"),
+  async (req, res) => {
+    const { group } = req.body;
+    res.send(group);
+  }
+);
 
 export default router;
