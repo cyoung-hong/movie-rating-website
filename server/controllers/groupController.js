@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Group from "../models/Group.js";
 import GroupInquiry from "../models/GroupInquiry.js";
 
@@ -23,6 +24,8 @@ export const getGroups = async (req, res) => {
 // Get group by group id
 export const getGroupById = async (req, res) => {
   try {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(404).json({ message: 'Invalid ID.'});
+
     const group = await Group.findById(req.params.id);
     if (group) {
       res.status(200).json({ group });
@@ -227,11 +230,12 @@ export const changeUserRole = async (req, res) => {
 // Remove user from group
 export const removeUser = async (req, res) => {
   try {
-    const { group, user, newRole } = req.body;
+    const { group, user } = req.body;
     const existingGroup = await Group.findOne({ _id: group.id });
     const member = existingGroup.members.find(
       (m) => m.username === user.username
     );
+
     if (!req.isAuthenticated()) {
       return res
         .status(401)
@@ -257,8 +261,59 @@ export const removeUser = async (req, res) => {
         .status(404)
         .json({ message: "User is not a member of the group." });
     }
-  } catch {}
+
+    const result = await Group.updateOne(
+      { _id: existingGroup._id, "members.username": user.username },
+      {
+        $pull: {
+          members: { id: user.id },
+        },
+      }
+    );
+
+    if (result.nModified === 1) {
+      return res.status(201).json({
+        message: `${user.username} has been removed from ${group.groupName}`,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
 };
 
 // Delete group
-export const deleteGroup = async (req, res) => {};
+// Consider adding role for website admin to be able to remove groups.
+export const deleteGroup = async (req, res) => {
+  try {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(404).json({ message: 'Invalid ID.'});
+
+    const existingGroup = await Group.findById(req.params.id);
+
+    if (!req.isAuthenticated()) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized access. Please login." });
+    }
+
+    // That the group exists
+    if (!existingGroup) {
+      return res.status(404).json({ message: "Group cannot be found." });
+    }
+
+    // Check that the user is an admin of the group
+    if (roleCheck(req.user, existingGroup) !== "admin") {
+      return res.status(401).json({
+        message:
+          "You do not have permissions to delete this group. Please contact a group admin.",
+      });
+    }
+
+    const group = await Group.findByIdAndDelete(req.params.id);
+
+    if (group) { res.status(200).json({message: `Group deleted successfully!`}); } 
+    else { res.status(404).json({ error: "Group not found." });  }
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
