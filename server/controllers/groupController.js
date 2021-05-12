@@ -162,9 +162,11 @@ export const changeUserRole = async (req, res) => {
       (m) => m.username === user.username
     );
 
-    // =====================================================================================
+    // ========================================================================================================
     // Consider refactoring into single function that returns a boolean
-    // =====================================================================================
+    // Maybe use validators, or a function that takes an array of check functions and returns true or false
+    // ========================================================================================================
+
     // Checks
     // Check user is logged in
     if (!req.isAuthenticated()) {
@@ -199,6 +201,8 @@ export const changeUserRole = async (req, res) => {
         .status(400)
         .json({ message: `User is already a(n) ${newRole}` });
     }
+    // ========================================================================================================
+    // ========================================================================================================
 
     const result = await Group.updateOne(
       { _id: existingGroup._id, "members.username": user.username },
@@ -221,7 +225,40 @@ export const changeUserRole = async (req, res) => {
 };
 
 // Remove user from group
-export const removeUser = async (req, res) => {};
+export const removeUser = async (req, res) => {
+  try {
+    const { group, user, newRole } = req.body;
+    const existingGroup = await Group.findOne({ _id: group.id });
+    const member = existingGroup.members.find(
+      (m) => m.username === user.username
+    );
+    if (!req.isAuthenticated()) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized access. Please login." });
+    }
+
+    // That the group exists
+    if (!existingGroup) {
+      return res.status(404).json({ message: "Group cannot be found." });
+    }
+
+    // Check that the user is an admin of the group
+    if (roleCheck(req.user, existingGroup) !== "admin") {
+      return res.status(401).json({
+        message:
+          "You do not have permissions to add users. Please contact a group admin.",
+      });
+    }
+
+    // Check that user who is having their role changed is a part of the group
+    if (!roleCheck(user, existingGroup)) {
+      return res
+        .status(404)
+        .json({ message: "User is not a member of the group." });
+    }
+  } catch {}
+};
 
 // Delete group
 export const deleteGroup = async (req, res) => {};
