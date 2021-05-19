@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { logOut } from "../../redux/actions/authActions.js";
@@ -18,15 +18,17 @@ import useStyles from "./styles";
 //Icons
 import HomeIcon from "@material-ui/icons/Home";
 
+import SearchBar from "../Search/SearchBar.js";
+
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
-  const authData = useSelector(state => state.authReducer.authData);
+  const authData = useSelector((state) => state.authReducer.authData);
 
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleClick = () => {
@@ -39,30 +41,24 @@ const Navbar = () => {
   }, [location]);
 
   return (
-    <AppBar position="sticky">
-      <Toolbar>
-        <IconButton component={Link} to={"/"}>
-          <HomeIcon />
-        </IconButton>
+    <AppBar position="sticky" color="transparent">
+      <Toolbar className={classes.navbar}>
         <Grid container className={classes.menuContainer}>
-          <Grid container className={classes.subMenu}>
-            <Grid item>
-              <Button component={Link} to={"/recommend"}>
-                <Typography>Recommend</Typography>
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button component={Link} to={"/review"}>
-                <Typography textDecoration="none">Review</Typography>
-              </Button>
-            </Grid>
+          <Grid item>
+            <Typography component={Link} to={"/"} color="textSecondary" className={classes.homeLink}>AGTOWN MOVIES</Typography>
           </Grid>
+
           {authData.user ? (
-            <Grid container className={classes.subMenu} spacing={2} alignItems="center">
-              <Typography className={classes.userName} variant="h6">
+            <Grid
+              container
+              className={classes.subMenu}
+              spacing={2}
+              alignItems="center"
+            >
+              <Typography className={classes.userName} variant="body1" color="textSecondary">
                 {authData.user.username}
               </Typography>
-              <Grid item>
+              <Grid item className={classes.searchWrapper}>
                 <Button
                   variant="contained"
                   className={classes.logout}
@@ -76,7 +72,7 @@ const Navbar = () => {
           ) : (
             <Grid item>
               <Button component={Link} to={"/auth"}>
-                <Typography>Sign In</Typography>
+                <Typography color="textSecondary">Sign In</Typography>
               </Button>
             </Grid>
           )}
