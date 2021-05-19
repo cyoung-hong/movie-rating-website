@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { logOut } from "../../redux/actions/authActions.js";
 
 //MUI
@@ -8,28 +8,21 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  IconButton,
   Grid,
   Button,
 } from "@material-ui/core";
 
 import useStyles from "./styles";
 
-//Icons
-import HomeIcon from "@material-ui/icons/Home";
-
-import SearchBar from "../Search/SearchBar.js";
 
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation();
 
   const authData = useSelector((state) => state.authReducer.authData);
 
   const [user, setUser] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleClick = () => {
     dispatch(logOut());
@@ -37,8 +30,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setUser(authData.user);
-    setLoggedIn(true);
-  }, [location]);
+  }, [authData]);
 
   return (
     <AppBar position="sticky" color="transparent">
@@ -48,7 +40,7 @@ const Navbar = () => {
             <Typography component={Link} to={"/"} color="textSecondary" className={classes.homeLink}>AGTOWN MOVIES</Typography>
           </Grid>
 
-          {authData.user ? (
+          {user ? (
             <Grid
               container
               className={classes.subMenu}
@@ -56,7 +48,7 @@ const Navbar = () => {
               alignItems="center"
             >
               <Typography className={classes.userName} variant="body1" color="textSecondary">
-                {authData.user.username}
+                {user.username}
               </Typography>
               <Grid item className={classes.searchWrapper}>
                 <Button

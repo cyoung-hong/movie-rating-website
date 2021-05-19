@@ -52,6 +52,7 @@ const SearchBar = () => {
     dispatch(searchMovieByTitle(query, tmpPage));
     history.push('/results');
   };
+  
 
   return (
     <Paper

@@ -26,32 +26,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const array = [
-  {
-    title: "Movies",
-    count: 12,
-  },
-  {
-    title: "TV Shows",
-    count: 4,
-  },
-  {
-    title: "Companies",
-    count: 5,
-  },
-  {
-    title: "Keywords",
-    count: 45,
-  },
-  {
-    title: "Collections",
-    count: 45,
-  },
-  {
-    title: "Networks",
-    count: 0,
-  },
-];
+// const array = [
+//   {
+//     title: "Movies",
+//     count: 12,
+//   },
+//   {
+//     title: "TV Shows",
+//     count: 4,
+//   },
+//   {
+//     title: "Companies",
+//     count: 5,
+//   },
+//   {
+//     title: "Keywords",
+//     count: 45,
+//   },
+//   {
+//     title: "Collections",
+//     count: 45,
+//   },
+//   {
+//     title: "Networks",
+//     count: 0,
+//   },
+// ];
 
 const ResultList = () => {
   const resultList = useSelector((state) => state.tmdbReducer.results);

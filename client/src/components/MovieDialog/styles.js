@@ -14,8 +14,13 @@ export default makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     backgroundSize:"contain",
   },  
-  info:{
-    display: "block",
-    marginBottom: theme.spacing(2),
+  wrapper:{
+    padding: theme.spacing(2)
   },
+  info:{
+    display:"block",
+  },
+  infoDetails: {
+    marginBottom: theme.spacing(1),
+  }
 }));

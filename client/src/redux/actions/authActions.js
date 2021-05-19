@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT, SEARCH_TMDB_TITLE } from "../actionTypes.js";
+import { AUTH, LOGOUT } from "../actionTypes.js";
 import * as api from "../../api/index.js";
 
 export const signin = (formData, history) => async (dispatch) => {

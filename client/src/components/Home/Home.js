@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Container, CssBaseline, Typography } from "@material-ui/core";
+import { Grid, Container, CssBaseline } from "@material-ui/core";
 
 import SearchBar from "../Search/SearchBar.js";
 import useStyles from "./styles";
