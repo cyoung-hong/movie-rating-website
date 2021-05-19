@@ -1,10 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
-
-import bgImage from "../../images/agtown5years.jpg";
+import bgImage from "../../images/pexels-dmitry-demidov-3921000.jpg";
 
 export default makeStyles((theme) => ({
     theatre: {
-        position: 'relative',
+        position: 'absolute',
+        top: 0,
+        left: 0,
         backgroundImage: `url(${bgImage})`,
         height: "100vh",
         backgroundRepeat: "no-repeat",

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({baseURL: 'http://localhost:3000/api' });
-const tmdbUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDB_KEY}`;
+const API = axios.create({baseURL: 'http://localhost:8082/api' });
 
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')) {
@@ -11,15 +10,24 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-
-export const fetchNowPlaying = () => axios.get(tmdbUrl);
-
 export const fetchRatings = () => API.get('/ratings');
-export const getRecommendations = () => API.get('/recommendations');
 
-export const signIn = (formData) => API.post('/user/signin', formData);
+// Request endpoints
+export const getRequest = () => API.get('/requests');
+export const createRequest = (movieData) => API.post('/requests/create', movieData, {withCredentials: true});
+
+// Group endpoints
+export const createGroup = (formData) => API.post("/groups/create", formData, {withCredentials: true});
+
+// Auth endpoints
+export const signIn = (formData) => API.post('/auth/signin', formData, {withCredentials: true});
+export const signUp = (formData) => API.post('/auth/signup', formData);
+export const logOut = () => API.get('/auth/logout');
+export const logIn = (formData) => API.post('/auth/login', formData, {withCredentials: true});
 
 // TMDB
-export const queryTMDB = (query) => API.get(`/tmdb/search${query}`);
+// Must correspond to controller endpoint
+// router.get('/search/:query', searchMovie);
+export const queryTMDBTitle = (query, page) => API.get(`/tmdb/search/${query}/${page}`);
 
 //export const deletePost = (id) => API.delete(`/posts/${id}`);

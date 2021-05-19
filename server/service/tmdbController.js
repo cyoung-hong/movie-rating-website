@@ -11,18 +11,28 @@ export const testTMDB = (req, res) => {
 };
 
 export const searchMovie = async (req, res) => {
-  const { query } = req.params;
+  const { query, page } = req.params;
+  //console.log('Controller now in searchMovie');
   try {
-    await axios
-      .get(
-        `${process.env.TMDB_API}/search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=1&include_adult=false&region=us`
-      )
-      .then((res) => {
-        console.log(res.data.results[0]);
-        res.status(200).json(res.data.results);
-      })
-      .catch((err) => res.status(500).json(err));
+    const searchResults = await axios.get(`${process.env.TMDB_API}search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false&region=us`)
+    if(searchResults) {
+      return res.status(201).json(searchResults.data);
+    }  
+    else {
+      res.status(500).json({message: "Nothing found."});
+    };
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
+
+// export const getMoviePoster = async (req, res) => {
+//   const {path} = req.params;
+
+//   try {
+//     await axios.get(`${process.env.TMDB_IMAGE_API}original/${path}`)
+//     .then((moviePoster) => {
+//       res.status(201).json(moviePoster)
+//     })
+//   }
+// }

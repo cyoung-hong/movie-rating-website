@@ -1,5 +1,5 @@
 import { GET_RATINGS, LOADING_DATA } from '../actionTypes';
-import api from '../../api/index.js';
+import * as api from '../../api/index.js';
 
 export const getRatings = () => async (dispatch) => {
     try {

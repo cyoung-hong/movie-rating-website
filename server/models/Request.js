@@ -1,27 +1,32 @@
 import mongoose from 'mongoose';
 
-const recommendationSchema = mongoose.Schema({
-    recommender: String,
+const requestSchema = mongoose.Schema({
+    requester: {
+        id: String,
+        name: String
+    },
     movie: {
         tmdbID: Number,
         title: String,
-        year: Number,
+        year: String,
         posterUrl: String, 
+        runtime: Number, 
         genres: [{
             id: Number,
             name: String,
         }],
     },
+    priority: Number,
+    group: String, 
     createdAt:{
         type: Date,
         default: new Date()
     },
-    lastModified: {
+    watchedOn: {
         type: Date,
-        default: new Date()
     },
 })
 
-const MovieRecommendation = mongoose.model(`MovieRecommendation`, recommendationSchema);
+const Request = mongoose.model(`Request`, requestSchema);
 
-export default MovieRecommendation;
+export default Request;

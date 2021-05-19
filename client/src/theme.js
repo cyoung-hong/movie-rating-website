@@ -2,10 +2,10 @@
 export default {
   palette: {
     primary: {
-      main: "#502274",
+      main: "#7CF7FB",
       light: "#7DCFB6",
       dark: "#1D4E89",
-      contrastText: "#fff",
+      contrast: "#fff",
     },
     secondary: {
       main: "#ff0008",
@@ -14,7 +14,19 @@ export default {
       contrastText: "#fff",
     },
     text: {
-      primary: "#000000",
+      primary: "#000",
+      secondary: "#fff",
     },
   },
+  props: {
+    MuiAppBar: {
+      elevation: 0,
+      width: "50%",
+    },
+  },
+  typography: {
+    body1: {
+      fontSize: "0.8em",
+    }
+  }
 };
