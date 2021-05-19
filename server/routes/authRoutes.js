@@ -29,16 +29,6 @@ router.post("/login-test", loginTest);
 router.get("/login-success", loginSuccess);
 router.get("/login-failure", loginFailure);
 
-router.get("/user", (req, res) => {
-  console.log("hi");
-  if (req.isAuthenticated()) {
-    console.log(req.user);
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
-  }
-});
-
 // TEST ROUTES, REMOVE WHEN NOT NEEDED
 router.post("/test", signupSchema, validateRequest, (req, res) => {
   res.sendStatus(201);
