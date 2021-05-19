@@ -1,11 +1,14 @@
-import express from 'express';
+import express from "express";
 
-import { createInquiry } from '../controllers/groupInquiryController.js';
+import {
+  createInquiry,
+  deleteInquiryById,
+} from "../controllers/groupInquiryController.js";
 
 const router = express.Router();
 
 //app.use("/api/groupInquiry", groupInquiryRoutes);
-
-router.post('/create', createInquiry);
+router.post("/create", createInquiry);
+router.delete("/delete", deleteInquiryById);
 
 export default router;
