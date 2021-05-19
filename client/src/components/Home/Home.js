@@ -16,18 +16,12 @@ const Home = () => {
       <Container className={classes.theatre} disableGutters maxWidth={false}>
         <Grid className={classes.overlay} />
         <Grid container className={classes.content}>
-          <Grid item className={classes.textContent}>
-            <Typography variant="h1" className={classes.ugh}>
-              Agtown Movies
-            </Typography>
-          </Grid>
           <Grid item>
             <SearchBar />
           </Grid>
         </Grid>
       </Container>
       <Footer />
-
     </React.Fragment>
   );
 };
