@@ -15,7 +15,6 @@ import passport from "../middleware/Passport/setup.js";
 const router = express.Router();
 
 router.get("/", getRequests);
-//router.get("/request/:filter/:id", getRequestTest);
 router.get("/request/myRequests", getMyRequests);
 router.get("/request/user/:userId", getRequestsByUser);
 router.get("/request/:id", getRequestById);
