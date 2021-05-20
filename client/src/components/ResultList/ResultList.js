@@ -15,12 +15,13 @@ import SearchBar from "../Search/SearchBar.js";
 const useStyles = makeStyles((theme) => ({
   columnWrapper: {
     position: "absolute",
+    justifyContent: "center",
+    alignContent: "flex-start",
     top: 0,
     left: 0,
     minHeight: "100vh",
     paddingTop: theme.spacing(12),
     padding: theme.spacing(8),
-    justifyContent: "center",
     background:
       "radial-gradient(circle, rgba(124,247,251,1) 0%, rgba(9,9,121,1) 100%)",
   },
@@ -30,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
   resultContainer: {
     justifyContent: "center",
+  },
+  search: {
+    height: "fit-content",
+
   },
 }));
 
@@ -72,8 +77,8 @@ const ResultList = () => {
   ) : (
     <React.Fragment>
       <CssBaseline />
-      <Grid container className={classes.columnWrapper} xs={12} spacing={2}>
-        <Grid item xs={2}>
+      <Grid className={classes.columnWrapper} container xs={12} spacing={2}>
+        <Grid className={classes.search} item xs={10}>
           <SearchBar />
         </Grid>
         <Grid item xs={10}>
