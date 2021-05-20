@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Modal,
-  Paper,
-  Box,
-  CardActionArea,
-} from "@material-ui/core";
+import { Card, CardContent, CardMedia } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { createRequest } from "../../../redux/actions/requestActions.js";
 import moment from "moment";
@@ -34,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 94,
     width: 95,
     height: 141,
+    cursor: "pointer",
   },
   content: {
     height: "100%",
@@ -47,8 +40,18 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
   },
   clickable: {
-    cursor: "pointer",
     width: "100%",
+  },
+  wrapper: {
+    width: "100%",
+  },
+  hideable: {
+    [theme.breakpoints.down('sm')] : {
+      display: "none",
+    }
+  },
+  button: {
+    marginRight: 5,
   },
 }));
 
@@ -74,7 +77,7 @@ const ResultDetail = ({ result }) => {
   // TO DO
   // Open paper with movie details
   // Modal currently fires both actions
-  const openMovieModal = () => {
+  const openMovieDialog = () => {
     console.log("In open" + open);
     setOpen(true);
 
@@ -92,9 +95,10 @@ const ResultDetail = ({ result }) => {
         className={classes.image}
         image={`https://image.tmdb.org/t/p/w300${result.poster_path}`}
         title="poster"
+        onClick={openMovieDialog}
       />
 
-      <CardContent className={classes.clickable} onClick={openMovieModal}>
+      <CardContent className={classes.wrapper}>
         <Grid className={classes.content} container>
           <Grid item xs={12}>
             <Grid className={classes.cardHeader} container xs={12}>
@@ -109,10 +113,10 @@ const ResultDetail = ({ result }) => {
                 </Grid>
               </Grid>
               <Grid item>
-                <Button onClick={openMovieModal} variant="outlined">
+                <Button className={`${classes.hideable} ${classes.button}`} onClick={openMovieDialog} variant="outlined" >
                   More
                 </Button>
-                <Button onClick={handleClick} variant="outlined">
+                <Button className={classes.button} onClick={handleClick} variant="outlined" >
                   Add
                 </Button>
               </Grid>
@@ -128,79 +132,9 @@ const ResultDetail = ({ result }) => {
           </Grid>
         </Grid>
       </CardContent>
-      <MovieDialog open={open} handleClose={handleClose} movieData={result} />
+      <MovieDialog open={open} handleClose={handleClose} movie={result} />
     </Card>
   );
 };
 
 export default ResultDetail;
-
-{
-  /*     <Card className={classes.root}>
-      <CardMedia
-        className={classes.image}
-        image={`https://image.tmdb.org/t/p/w300${result.poster_path}`}
-        title="poster"
-      />
-      <CardContent onClick={() => {alert("Hi")}}>
-        <Grid className={classes.content} container>
-          <Grid item xs={12} >
-            <Grid className={classes.cardHeader} container xs={12}>
-              <Grid item>
-                <Grid item className={classes.title}>
-                  {result.title}
-                </Grid>
-                <Grid item>
-                  <Typography variant="body1">
-                    {moment(result.year).format("MMMM D, YYYY")}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Button onClick={handleClick} variant="outlined">Add</Button>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item>
-            <Grid container className={classes.overviewWrapper}>
-              <Typography variant="body1" color="textPrimary">
-                {result.overview}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>*/
-}
-
-{
-  /* <Card className={classes.root}>
-<CardActionArea>
-  <CardMedia
-    className={classes.image}
-    image={`https://image.tmdb.org/t/p/w300${result.poster_path}`}
-    title="poster"
-  />
-  <CardContent
-    onClick={() => {
-      alert("Hi");
-    }}
-  >
-    <Typography> {result.title} </Typography>
-
-    <Typography variant="body1">
-      {moment(result.year).format("MMMM D, YYYY")}
-    </Typography>
-
-    <Button onClick={handleClick} variant="outlined">
-      Add
-    </Button>
-
-    <Typography variant="body1" color="textPrimary">
-      {result.overview}
-    </Typography>
-  </CardContent>
-</CardActionArea>
-</Card> */
-}

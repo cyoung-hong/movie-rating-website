@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Container, Grid, Typography } from "@material-ui/core";
-import {useStyles} from "@material-ui/core/styles";
+import { Container, Typography } from "@material-ui/core";
 
 const Footer = () => {
   return (

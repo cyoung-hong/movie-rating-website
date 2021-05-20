@@ -6,7 +6,6 @@ import {
   Paper,
   Container,
   Grid,
-  CssBaseline,
 } from "@material-ui/core";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
@@ -15,7 +14,6 @@ import LockOutlined from "@material-ui/icons/LockOutlined";
 import Icon from "./Icon.js";
 import Input from "./Input.js";
 import useStyles from "./styles";
-import bgImage from "../../images/pexels-dmitry-demidov-3921000.jpg";
 
 //REDUX
 import { signin, signup } from "../../redux/actions/authActions.js";

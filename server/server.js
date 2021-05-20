@@ -42,8 +42,10 @@ var sesh = {
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   cookie: {
-    maxAge: 1000 * 60 * 3,
+    maxAge: 1000 * 60 * 60 * 3, // 3 hours
   },
+  clearInterval: 1000 * 60 * 60,  // 1 hour
+  unset: 'destroy',
 }
 
 if (app.get('env') === 'production') {

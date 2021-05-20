@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT, SEARCH_TMDB_TITLE } from "../actionTypes.js";
+import { AUTH, LOGOUT } from "../actionTypes.js";
 import * as api from "../../api/index.js";
 
 export const signin = (formData, history) => async (dispatch) => {
@@ -25,11 +25,12 @@ export const signup = (formData, history) => async (dispatch) => {
   }
 };
 
-export const logOut = async (dispatch) => {
+export const signOut = () => async (dispatch) => {
   try{
     const {data} = api.logOut();
     console.log(data);
-    dispatch({type: LOGOUT, data});
+
+    dispatch({type: LOGOUT, payload: data});
   } catch (error) {
     console.log(error.response);
   }

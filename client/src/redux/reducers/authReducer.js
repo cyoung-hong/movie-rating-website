@@ -1,7 +1,7 @@
 import { AUTH, USER_SIGNUP, LOGOUT } from "../actionTypes.js";
 
 const initialData = {
-  authData: {},
+  loggedIn: false,
 };
 
 const authReducer = (state = initialData, action) => {
@@ -10,7 +10,10 @@ const authReducer = (state = initialData, action) => {
       console.log(action.data);
       return {
         ...state,
-        authData: action?.data,
+        user: {
+          ...state.user,
+          ...action.data.user,
+        },
         loggedIn: true,
       };
     case "SET_ERROR":
@@ -19,9 +22,11 @@ const authReducer = (state = initialData, action) => {
     case USER_SIGNUP:
       //localStorage.setItem("profile", action.data);
       console.log(action);
-      return { ...state, authData: action?.data};
+      return { ...state, authData: action?.data };
     case LOGOUT:
-      return { ...state, authData: initialData, loggedIn: false, };
+      return {
+        ...initialData,
+      };
     default:
       return state;
   }
