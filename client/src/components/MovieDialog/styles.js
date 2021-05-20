@@ -15,9 +15,16 @@ export default makeStyles((theme) => ({
     backgroundSize:"contain",
   },  
   wrapper:{
-    padding: theme.spacing(2)
+    padding: theme.spacing(1),
   },
-  info:{
+  buttonWrapper: {
+    width:"100%",
+    alignSelf: "flex-end",
+  },
+  buttonContainer: {
+    justifyContent: "flex-end",
+  },
+  info: {
     display:"block",
   },
   infoDetails: {
