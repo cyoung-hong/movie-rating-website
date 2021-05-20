@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { logOut } from "../../redux/actions/authActions.js";
+import { signOut } from "../../redux/actions/authActions.js";
 
 //MUI
 import {
@@ -20,17 +20,12 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const authData = useSelector((state) => state.authReducer.authData);
-
-  const [user, setUser] = useState("");
+  const user = useSelector((state) => state.authReducer.user);
+  const loggedIn = useSelector((state) => state.authReducer.loggedIn);
 
   const handleClick = () => {
-    dispatch(logOut());
+   dispatch(signOut());
   };
-
-  useEffect(() => {
-    setUser(authData.user);
-  }, [authData]);
 
   return (
     <AppBar position="sticky" color="transparent">
@@ -40,7 +35,7 @@ const Navbar = () => {
             <Typography component={Link} to={"/"} color="textSecondary" className={classes.homeLink}>AGTOWN MOVIES</Typography>
           </Grid>
 
-          {user ? (
+          {loggedIn? (
             <Grid
               container
               className={classes.subMenu}
