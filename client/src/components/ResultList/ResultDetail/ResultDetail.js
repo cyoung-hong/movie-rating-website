@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 94,
     width: 95,
     height: 141,
+    cursor: "pointer",
   },
   content: {
     height: "100%",
@@ -43,6 +44,14 @@ const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     width: "100%",
+  },
+  hideable: {
+    [theme.breakpoints.down('sm')] : {
+      display: "none",
+    }
+  },
+  button: {
+    marginRight: 5,
   },
 }));
 
@@ -68,7 +77,7 @@ const ResultDetail = ({ result }) => {
   // TO DO
   // Open paper with movie details
   // Modal currently fires both actions
-  const openMovieModal = () => {
+  const openMovieDialog = () => {
     console.log("In open" + open);
     setOpen(true);
 
@@ -86,6 +95,7 @@ const ResultDetail = ({ result }) => {
         className={classes.image}
         image={`https://image.tmdb.org/t/p/w300${result.poster_path}`}
         title="poster"
+        onClick={openMovieDialog}
       />
 
       <CardContent className={classes.wrapper}>
@@ -103,10 +113,10 @@ const ResultDetail = ({ result }) => {
                 </Grid>
               </Grid>
               <Grid item>
-                <Button onClick={openMovieModal} variant="outlined">
+                <Button className={`${classes.hideable} ${classes.button}`} onClick={openMovieDialog} variant="outlined" >
                   More
                 </Button>
-                <Button onClick={handleClick} variant="outlined">
+                <Button className={classes.button} onClick={handleClick} variant="outlined" >
                   Add
                 </Button>
               </Grid>
@@ -122,7 +132,7 @@ const ResultDetail = ({ result }) => {
           </Grid>
         </Grid>
       </CardContent>
-      <MovieDialog open={open} handleClose={handleClose} movieData={result} />
+      <MovieDialog open={open} handleClose={handleClose} movie={result} />
     </Card>
   );
 };

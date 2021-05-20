@@ -47,7 +47,7 @@ const SearchBar = () => {
     event.preventDefault();
     //console.log(query);
     const tmpPage = page.toString();
-    console.log(tmpPage);
+    
     // Goes to tmdbReducer after
     dispatch(searchMovieByTitle(query, tmpPage));
     history.push('/results');
