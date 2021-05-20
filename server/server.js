@@ -10,6 +10,8 @@ import tmdbRoutes from "./service/tmdb.js";
 import ratingRoutes from "./routes/ratingRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import requestRoutes from "./routes/requestRoutes.js";
+import groupRoutes from "./routes/groupRoutes.js";
+import groupInquiryRoutes from "./routes/groupInquiryRoutes.js";
 
 //import passport from "./middleware/Passport/setup.js";
 import passport from "passport";
@@ -40,8 +42,10 @@ var sesh = {
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   cookie: {
-    maxAge: 1000 * 60 * 3,
+    maxAge: 1000 * 60 * 60 * 3, // 3 hours
   },
+  clearInterval: 1000 * 60 * 60,  // 1 hour
+  unset: 'destroy',
 }
 
 if (app.get('env') === 'production') {
@@ -60,6 +64,8 @@ app.use("/api/tmdb", tmdbRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes);
+app.use("/api/groupInquiry", groupInquiryRoutes);
 
 // Potential error handler
 // app.use(async (req, res, next) => {

@@ -11,12 +11,10 @@ import {
 import Request from "../models/Request.js";
 
 import passport from "../middleware/Passport/setup.js";
-import auth from "../middleware/Passport/auth.js";
 
 const router = express.Router();
 
 router.get("/", getRequests);
-//router.get("/request/:filter/:id", getRequestTest);
 router.get("/request/myRequests", getMyRequests);
 router.get("/request/user/:userId", getRequestsByUser);
 router.get("/request/:id", getRequestById);

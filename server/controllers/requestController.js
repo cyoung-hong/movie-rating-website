@@ -95,7 +95,7 @@ export const createRequest = async (req, res) => {
         const newRequest = new Request({
           requester: {
             id: req.user._id,
-            name: req.user.name,
+            username: req.user.username,
           },
           movie: request.movie,
           createdAt: new Date(),

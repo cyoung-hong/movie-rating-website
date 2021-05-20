@@ -1,73 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { signOut } from "../../redux/actions/authActions.js";
 
 //MUI
 import {
   AppBar,
   Toolbar,
   Typography,
-  IconButton,
   Grid,
   Button,
 } from "@material-ui/core";
 
 import useStyles from "./styles";
 
-//Icons
-import HomeIcon from "@material-ui/icons/Home";
 
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation();
-  const [user, setUser] = useState('');
 
-  const logout = () => {
-    dispatch({ type: "LOGOUT" });
-    history.push("/");
+  const user = useSelector((state) => state.authReducer.user);
+  const loggedIn = useSelector((state) => state.authReducer.loggedIn);
+
+  const handleClick = () => {
+   dispatch(signOut());
   };
 
-  const userName = useSelector((state) => state.authReducer.authData);
-
-  useEffect(() => {
-    //const token = user?.token;
-    // JWT...
-    setUser(userName);
-    console.log(user);
-  }, [location]);
-
   return (
-    <AppBar position="sticky">
-      <Toolbar>
-        <IconButton component={Link} to={"/"}>
-          <HomeIcon />
-        </IconButton>
+    <AppBar position="sticky" color="transparent">
+      <Toolbar className={classes.navbar}>
         <Grid container className={classes.menuContainer}>
-          <Grid container className={classes.subMenu}>
-            <Grid item>
-              <Button component={Link} to={"/recommend"}>
-                <Typography>Recommend</Typography>
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button component={Link} to={"/review"}>
-                <Typography textDecoration="none">Review</Typography>
-              </Button>
-            </Grid>
+          <Grid item>
+            <Typography component={Link} to={"/"} color="textSecondary" className={classes.homeLink}>AGTOWN MOVIES</Typography>
           </Grid>
-          {user != '' ? (
-            <Grid container className={classes.subMenu} spacing={2} alignItems="center">
-              <Typography className={classes.userName} variant="h6">
-                {user}
+
+          {loggedIn? (
+            <Grid
+              container
+              className={classes.subMenu}
+              spacing={2}
+              alignItems="center"
+            >
+              <Typography className={classes.userName} variant="body1" color="textSecondary">
+                {user.username}
               </Typography>
-              <Grid item>
+              <Grid item className={classes.searchWrapper}>
                 <Button
                   variant="contained"
                   className={classes.logout}
                   color="secondary"
-                  onClick={logout}
+                  onClick={handleClick}
                 >
                   Logout
                 </Button>
@@ -76,7 +59,7 @@ const Navbar = () => {
           ) : (
             <Grid item>
               <Button component={Link} to={"/auth"}>
-                <Typography>Sign In</Typography>
+                <Typography color="textSecondary">Sign In</Typography>
               </Button>
             </Grid>
           )}
