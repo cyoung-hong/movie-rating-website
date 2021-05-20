@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { makeStyles } from "@material-ui/core";
-import { Grid, CircularProgress, CssBaseline } from "@material-ui/core";
+import {
+  Grid,
+  CircularProgress,
+  CssBaseline,
+  makeStyles,
+  useMediaQuery,
+} from "@material-ui/core";
 
 import ResultDetail from "./ResultDetail/ResultDetail.js";
+import SearchBar from "../Search/SearchBar.js";
 
 const useStyles = makeStyles((theme) => ({
   columnWrapper: {
@@ -12,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     minHeight: "100vh",
+    paddingTop: theme.spacing(12),
     padding: theme.spacing(8),
     justifyContent: "center",
     background:
@@ -66,6 +73,9 @@ const ResultList = () => {
     <React.Fragment>
       <CssBaseline />
       <Grid container className={classes.columnWrapper} xs={12} spacing={2}>
+        <Grid item xs={2}>
+          <SearchBar />
+        </Grid>
         <Grid item xs={10}>
           <Grid container className={classes.resultContainer} spacing={1}>
             {resultList.map((result) => (
