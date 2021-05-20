@@ -11,16 +11,6 @@ export const loginTest = passport.authenticate("local-login", {
   failureRedirect: "/api/auth/login-failure",
 });
 
-export const loginSuccess = (req, res) => {
-  console.log(req.user);
-  const user = req.user;
-  res.send(user);
-};
-
-export const loginFailure = (req, res) => {
-  res.send("Cap");
-};
-
 export const signin = async (req, res) => {
   try {
     const { _id, username, picturePath } = req.user;
