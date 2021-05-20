@@ -20,9 +20,9 @@ export const createRequest = (movieData) => API.post('/requests/create', movieDa
 export const createGroup = (formData) => API.post("/groups/create", formData, {withCredentials: true});
 
 // Auth endpoints
-export const signIn = (formData) => API.post('/auth/signin', formData, {withCredentials: true});
+export const signIn = (formData) => API.post('/auth/signin', formData);
 export const signUp = (formData) => API.post('/auth/signup', formData);
-export const logOut = () => API.get('/auth/logout');
+export const logOut = () => API.post('/auth/logout');
 export const logIn = (formData) => API.post('/auth/login', formData, {withCredentials: true});
 
 // TMDB
