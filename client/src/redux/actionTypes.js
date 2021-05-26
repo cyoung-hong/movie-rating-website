@@ -4,6 +4,7 @@ export const CREATE_RATING = "CREATE_RATING";
 
 // Recommendations Actions
 export const GET_RECOMMENDATIONS = 'GET_RECOMMENDATIONS';
+export const GET_MY_RECS = 'GET_MY_RECS';
 export const CREATE_RECOMMENDATION = "CREATE_RECOMMENDATION";
 
 // Authentication Actions
