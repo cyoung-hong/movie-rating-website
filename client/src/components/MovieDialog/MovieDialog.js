@@ -1,12 +1,12 @@
 import React from "react";
 import { Dialog, Grid, Typography, useMediaQuery, Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { createRequest } from "../../redux/actions/requestActions.js";
+import { createRequest } from "../../redux/actions/recActions.js";
 import moment from "moment";
 
 import useStyles from "./styles";
 
-const MovieModal = (props) => {
+const MovieDialog = (props) => {
   const { open, handleClose, movie } = props;
   const posterPath = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
   const classes = useStyles({ posterPath });
@@ -43,7 +43,7 @@ const MovieModal = (props) => {
               </Grid>
               <Grid item className={classes.infoDetails}>
                 <Typography>
-                  {moment(MovieModal.release_date).format("MMMM D, YYYY")}
+                  {moment(movie.release_date).format("MMMM D, YYYY")}
                 </Typography>
               </Grid>
               <Grid item className={classes.infoDetails}>
@@ -69,4 +69,4 @@ const MovieModal = (props) => {
   );
 };
 
-export default MovieModal;
+export default MovieDialog;
