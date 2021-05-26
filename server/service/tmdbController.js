@@ -14,13 +14,15 @@ export const searchMovie = async (req, res) => {
   const { query, page } = req.params;
   //console.log('Controller now in searchMovie');
   try {
-    const searchResults = await axios.get(`${process.env.TMDB_API}search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false&region=us`)
-    if(searchResults) {
+    const searchResults = await axios.get(
+      `${process.env.TMDB_API}search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false&region=us`
+    );
+
+    if (searchResults) {
       return res.status(201).json(searchResults.data);
-    }  
-    else {
-      res.status(500).json({message: "Nothing found."});
-    };
+    } else {
+      res.status(500).json({ message: "Nothing found." });
+    }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
