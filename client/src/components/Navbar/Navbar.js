@@ -42,7 +42,7 @@ const Navbar = () => {
               spacing={2}
               alignItems="center"
             >
-              <Typography className={classes.userName} variant="body1" color="textSecondary">
+              <Typography component={Link} to={"/user"} className={classes.userName} variant="body1" color="textSecondary">
                 {user.username}
               </Typography>
               <Grid item className={classes.searchWrapper}>
