@@ -16,9 +16,9 @@ router.post("/signin", passport.authenticate("local-login"), signin);
 
 router.post("/signup", signupSchema, validateRequest, signup);
 
-router.post("/logout", (req, res) => {
-  req.session = null;
-  res.clearCookie('connect.sid').redirect('/');
+router.get("/signout", (req, res) => {
+  req.logOut();
+  res.redirect('/');
 });
 
 export default router;
