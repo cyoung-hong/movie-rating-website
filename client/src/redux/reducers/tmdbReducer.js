@@ -1,7 +1,6 @@
 import { SEARCH_TMDB_TITLE } from "../actionTypes.js";
 
 const initialState = {
-  
 };
 
 const tmdbReducer = (state = initialState, action) => {
