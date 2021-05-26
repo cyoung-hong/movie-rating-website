@@ -3,7 +3,7 @@ import { Grid, Button, Typography } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { Card, CardContent, CardMedia } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { createRequest } from "../../../redux/actions/requestActions.js";
+import { createRequest } from "../../../redux/actions/recActions.js";
 import moment from "moment";
 
 import MovieDialog from "../../MovieDialog/MovieDialog.js";
@@ -108,7 +108,7 @@ const ResultDetail = ({ result }) => {
                 </Grid>
                 <Grid item>
                   <Typography variant="body1">
-                    {moment(result.year).format("MMMM D, YYYY")}
+                    {moment(result.release_date).format("MMMM D, YYYY")}
                   </Typography>
                 </Grid>
               </Grid>
