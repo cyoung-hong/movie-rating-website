@@ -27,8 +27,7 @@ export const signup = (formData, history) => async (dispatch) => {
 
 export const signOut = () => async (dispatch) => {
   try{
-    const {data} = api.logOut();
-    console.log(data);
+    const {data} = api.signOut();
 
     dispatch({type: LOGOUT, payload: data});
   } catch (error) {
