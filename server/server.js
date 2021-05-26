@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 import tmdbRoutes from "./service/tmdb.js";
 import ratingRoutes from "./routes/ratingRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import requestRoutes from "./routes/requestRoutes.js";
+import recRoutes from "./routes/recRoutes.js";
 import groupRoutes from "./routes/groupRoutes.js";
 import groupInquiryRoutes from "./routes/groupInquiryRoutes.js";
 
@@ -39,12 +39,12 @@ app.use(cors(corsOptions));
 var sesh = {
   secret: process.env.SSN_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 3, // 3 hours
+    maxAge: 1000 * 60 * 2, // 3 hours
   },
-  clearInterval: 1000 * 60 * 60,  // 1 hour
+  clearInterval: 1000 * 60,  // 1 hour
   unset: 'destroy',
 }
 
@@ -61,7 +61,7 @@ app.get('/', (req,res,next) => {
   res.send("Hello World, cookie please?");
 })
 app.use("/api/tmdb", tmdbRoutes);
-app.use("/api/requests", requestRoutes);
+app.use("/api/recs", recRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes);
