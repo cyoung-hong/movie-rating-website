@@ -4,8 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // Components
 import UserInfo from "./UserInfo.js";
-import UserRecs from "./UserRecs.js";
+import UserRecs from "./UserRecs/UserRecs.js";
 import RecDetails from "../Recommendations/RecDetail/RecDetail.js";
+import PosterGrid from "./UserRecs/PosterGrid.js";
+import CustomGrid from "./UserRecs/CutomGrid.js";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +15,17 @@ import { getMyRecs } from "../../redux/actions/recActions.js";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
-    display: "flex",
-    padding: theme.spacing(4),
+    position: "absolute",
+    justifyContent: "center",
+    alignContent: "flex-start",
+    top: 0,
+    left: 0,
+    flexGrow: 1,
+    minHeight: "100vh",
+    paddingTop: theme.spacing(12),
+    padding: theme.spacing(8),
+    background:
+      "radial-gradient(circle, rgba(124,247,251,1) 0%, rgba(9,9,121,1) 100%)",
   },
   profileWrapper: {
     display: "flex",
@@ -51,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 const User = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const recList = useSelector((state) => state.recReducer.myRecs);
 
   useEffect(() => {
     dispatch(getMyRecs());
@@ -61,33 +71,7 @@ const User = () => {
     <>
       <CssBaseline />
       <Grid className={classes.mainContainer} container>
-        <Grid className={classes.profileWrapper} item xs={12}>
-          <Grid className={classes.profileContainer} container xs={12}>
-            <Grid className={classes.infoWrapper} item xs={3}>
-              <UserInfo />
-            </Grid>
-
-            <Grid className={classes.groupWrapper} item xs={9}>
-              <UserRecs />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid className={classes.groupWrapper} item xs={12}>
-          <Grid className={classes.groupContainer} container>
-            {recList.map((rec) => (
-              <Grid item key={rec.id} xs={12}>
-                {console.log(rec)}
-                <RecDetails rec={rec} />
-              </Grid>
-            ))}
-            <Grid className={classes.groupRecs}>Group 1</Grid>
-            <Grid className={classes.groupRecs}>Group 2</Grid>
-            <Grid className={classes.groupRecs}>Group 3</Grid>
-            <Grid className={classes.groupRecs}>Group 4</Grid>
-            <Grid className={classes.groupRecs}>Group 5</Grid>
-          </Grid>
-        </Grid>
+        <CustomGrid />
       </Grid>
     </>
   );

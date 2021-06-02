@@ -13,6 +13,9 @@ export const LOGOUT = 'LOGOUT';
 export const USER_SIGNIN = 'USER_SIGNIN';
 export const USER_SIGNUP = 'USER_SIGNUP';
 
+// Group Actions
+export const CREATE_GROUP = 'CREATE_GROUP';
+
 // UI Actions
 export const LOADING_DATA = 'LOADING_DATA';
 

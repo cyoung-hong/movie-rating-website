@@ -44,6 +44,8 @@ export const createGroup = async (req, res) => {
       const data = req.body;
       const members = [];
 
+      console.log(data);
+
       const existingGroup = await Group.findOne({ groupName: data.groupName });
       //Check if a group exists with the same name
       if (existingGroup) {

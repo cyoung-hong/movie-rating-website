@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const groupInquirySchema = mongoose.Schema({
-    origin: String,
-    group: {groupId: mongoose.Schema.ObjectId, groupName: String},
+    origin: {type: String, enum: ['USER', 'GROUP']},
+    group: {groupId: mongoose.Schema.ObjectId, groupName: String, picturePath: String},
     user: {userId: mongoose.Schema.ObjectId, username: String, picturePath: String}
 })
 

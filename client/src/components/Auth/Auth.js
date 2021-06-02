@@ -17,6 +17,7 @@ import useStyles from './styles';
 
 //REDUX
 import { signin, signup } from '../../redux/actions/authActions.js';
+import {getMyRecs} from '../../redux/actions/recActions.js';
 
 const initialFormData = {
   firstName: '',
@@ -39,7 +40,8 @@ const Auth = () => {
     if (isSignup) {
       dispatch(signup(formData, history));
     } else {
-      dispatch(signin(formData, history));
+      dispatch(signin(formData, history))
+      .then(() => dispatch(getMyRecs()));
     }
   };
 
