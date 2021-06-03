@@ -7,6 +7,7 @@ import { Grid, Typography } from "@material-ui/core";
 
 import TextField from "../Form/TextfieldWrapper.js";
 import Button from "../Form/SubmitButton.js";
+import FileUpload from "../Form/FileUpload.js";
 
 // REDUX
 import { useDispatch } from "react-redux";
@@ -49,6 +50,10 @@ const CreateGroup = () => {
               <Grid item xs={12}>
                 <TextField name="groupName" label="Group Name" />
               </Grid>
+              <Grid item>
+                <FileUpload />
+              </Grid>
+              
               <Grid item>
                 <Button color="secondary">Submit</Button>
               </Grid>
