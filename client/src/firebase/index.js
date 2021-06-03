@@ -15,5 +15,7 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
 
   const storage = firebase.storage();
+  const storageRef = storage.ref();
+  const imagesRef = storageRef.child('images');
 
-  export {storage, firebase as default};
+  export {storageRef, imagesRef, firebase as default};
