@@ -40,7 +40,7 @@ export const getMyRecs = async (req, res) => {
       const myRecs = await Recommendation.find({
         "recommender.userId": req.user._id,
       }).select("-recommender");
-      console.log(myRecs);
+      
       res.status(200).json(myRecs);
     } else {
       res.status(401).json({ message: "Unauthorized, please login." });

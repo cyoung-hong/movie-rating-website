@@ -19,6 +19,10 @@ export const getMyRecs = () => async (dispatch) => {
       dispatch({type: GET_MY_RECS, payload: data});
     }
   } catch (error) { 
+    if(error.message === 'Request failed with status code 401') {
+      console.log('Please login');
+      
+    }
     console.log(error.message);
   }
 }

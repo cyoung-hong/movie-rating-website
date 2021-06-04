@@ -27,40 +27,16 @@ const useStyles = makeStyles((theme) => ({
     background:
       "radial-gradient(circle, rgba(124,247,251,1) 0%, rgba(9,9,121,1) 100%)",
   },
-  profileWrapper: {
-    display: "flex",
-    maxHeight: "50vh",
-  },
-  profileContainer: {
-    maxHeight: "inherit",
-  },
-  infoWrapper: {
-    maxHeight: "inherit",
-  },
-  groupWrapper: {
-    maxHeight: "inherit",
-  },
-  innerContainer: {
-    height: "100%",
-  },
-  infoContainer: {
-    height: "100%",
-  },
-  recWrapper: {
-    maxHeight: "inherit",
-  },
-  recContainer: {
-    maxHeight: "inherit",
-    flexDirection: "column",
-    flexWrap: "wrap",
-  },
-  recommendations: {
-    width: "flex",
+  groupList: {
+    minHeight: 200,
   },
 }));
 
 const User = () => {
   const classes = useStyles();
+  const groupList = useSelector((state) => state.recReducer.groupRecs);
+  const recList = useSelector((state) => state.recReducer.myRecs);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -71,7 +47,15 @@ const User = () => {
     <>
       <CssBaseline />
       <Grid className={classes.mainContainer} container>
-        <CustomGrid />
+
+        <Grid className={classes.groupList} item>
+          <CustomGrid list={groupList}/>
+        </Grid>
+
+        <Grid item>
+          <CustomGrid list={recList}/>
+        </Grid>
+
       </Grid>
     </>
   );
