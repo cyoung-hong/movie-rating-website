@@ -7,8 +7,6 @@ import bcrypt from "bcryptjs";
 passport.use(
   'local-login',
   new LocalStrategy({ usernameField: "email" }, (username, password, done) => {
-    console.log('In LocalStrategy');
-    console.log(`${username} + ${password}`);
     User.findOne({ email: username })
       .then((user) => {
         if (!user) {
