@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import {
   signin,
   signup,
+  isAuthenticated
 } from "../controllers/authController.js";
 
 import { signupSchema, signinSchema } from "../middleware/schema/authSchema.js";
@@ -12,8 +13,9 @@ import { validateRequest } from "../middleware/validateRequest.js";
 
 const router = express.Router();
 
-router.post("/signin", passport.authenticate("local-login"), signin);
+router.get("/", isAuthenticated);
 
+router.post("/signin", passport.authenticate("local-login"), signin);
 router.post("/signup", signupSchema, validateRequest, signup);
 
 router.get("/signout", (req, res) => {

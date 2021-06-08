@@ -52,3 +52,11 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: "Something went wrong." });
   }
 };
+
+export const isAuthenticated = async (req,res) => {
+  if(req.user) {
+    return res.status(200).json({authenticated: true});}
+  else {
+    return res.status(401).json({authenticated: false});
+  }
+}

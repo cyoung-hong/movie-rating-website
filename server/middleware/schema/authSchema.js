@@ -21,12 +21,15 @@ export const signupSchema = [
   body("firstName").ltrim().rtrim(),
   body("lastName").ltrim().rtrim(),
   body("email").trim().escape().isEmail().normalizeEmail().custom(emailInUse),
-  body("password").isStrongPassword(pwOptions).withMessage(
+  body("password")
+    .isStrongPassword(pwOptions)
+    .withMessage(
       "Password must be at least 8 characters long, and contain one uppercase, one lowercase, and one number"
-    ).custom(confirmPassword),
- body("picturePath").if(body("picturePath").exists()).isURL(),
+    ),
+  body("confirmPassword").custom(confirmPassword),
+  body("picturePath").if(body("picturePath").exists()).isURL(),
 ];
 
 export const signinSchema = [
-    body("email").trim().escape().isEmail().normalizeEmail(),
-]
+  body("email").trim().escape().isEmail().normalizeEmail(),
+];

@@ -11,7 +11,7 @@ export const emailInUse = (value) => {
 };
 
 export const confirmPassword = (value, {req} ) => {
-    if(value !== req.body.confirmPassword){
+    if(value !== req.body.password){
         throw new Error('Passwords do not match');
     }
     return true;
