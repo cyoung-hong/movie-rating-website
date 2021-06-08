@@ -18,6 +18,8 @@ export const CREATE_GROUP = 'CREATE_GROUP';
 
 // UI Actions
 export const LOADING_DATA = 'LOADING_DATA';
+export const SET_ERRORS = 'SET_ERRORS';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 // TMDB Service Actions
 export const SEARCH_TMDB_TITLE = 'SEARCH_TMDB_TITLE';
