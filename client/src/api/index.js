@@ -27,6 +27,7 @@ export const signIn = (formData) => API.post('/auth/signin', formData, {withCred
 export const signUp = (formData) => API.post('/auth/signup', formData);
 export const signOut = () => API.get('/auth/signout', {withCredentials: true});
 export const logIn = (formData) => API.post('/auth/login', formData, {withCredentials: true});
+export const authenticate = () => API.get('/auth', {withCredentials: true})
 
 // TMDB
 // Must correspond to controller endpoint
