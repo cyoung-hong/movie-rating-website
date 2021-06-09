@@ -17,7 +17,7 @@ const pwOptions = {
 };
 
 export const signupSchema = [
-  body("username").exists({ checkFalsy: true }).escape().isAlphanumeric(),
+  body("username").exists({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Username can only contain alphanumeric characters.'),
   body("firstName").ltrim().rtrim(),
   body("lastName").ltrim().rtrim(),
   body("email").trim().escape().isEmail().normalizeEmail().custom(emailInUse),
