@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Avatar, Button, Paper, Container, Grid } from "@material-ui/core";
-import { GoogleLogin } from "react-google-login";
-import { useDispatch, useSelector } from "react-redux";
-import LockOutlined from "@material-ui/icons/LockOutlined";
+import {
+  Avatar,
+  Button,
+  Paper,
+  Container,
+  Grid,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-import Icon from "./Icon.js";
-import Input from "./Input.js";
+import { useDispatch } from "react-redux";
+import LockOutlined from "@material-ui/icons/LockOutlined";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
 import useStyles from "./styles";
 
 //REDUX
@@ -22,6 +32,23 @@ const initialFormData = {
   confirmPassword: "",
 };
 
+const signupSchema = Yup.object({
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  username: Yup.string().required("Required"),
+  email: Yup.string().required("Required").email(),
+  password: Yup.string().required("Password required"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
+});
+
+const signinSchema = Yup.object({
+  email: Yup.string().required("Required").email(),
+  password: Yup.string().required("Password required"),
+});
+
 const Auth = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -29,70 +56,30 @@ const Auth = () => {
 
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState(initialFormData);
 
-  const errors = useSelector((state) => state.uiReducer.errors);
-
-  const getError = (field) => {
-    let ret;
-
-    if (errors) {
-      errors.forEach((e) => {
-        if (e.param === field) {
-          ret = e.msg;
-        }
-      });
-    }
-
-    return ret;
-  };
-
-  const userErr = getError('username');
-  const emailErr = getError('email');
-  const passErr = getError('password');
-  const confirmErr = getError('confirmPassword');
-
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (values) => {
     if (isSignup) {
-      dispatch(signup(formData, history));
+      dispatch(signup(values, history));
     } else {
-      dispatch(signin(formData, history)).then(() => dispatch(getMyRecs()));
+      dispatch(signin(values, history)).then(() => dispatch(getMyRecs()));
     }
-  };
-
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const switchMode = () => {
-    console.log("Is signup, ====== " + isSignup);
     setIsSignup((prevIsSignup) => !prevIsSignup);
   };
 
   const handleShowPassword = () => {
-    console.log("Is signup, ====== " + isSignup);
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj; // will not throw an error if the account does not exist
-    const token = res?.tokenId;
+  const formik = useFormik({
+    initialValues: initialFormData,
+    validationSchema: isSignup ? signupSchema : signinSchema,
+    onSubmit: handleSubmit,
+  });
 
-    try {
-      dispatch({ type: "AUTH", data: { result, token } });
-      history.push("/user");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const googleFailure = (err) => {
-    console.log(err);
-    console.log("Google Sign In was unsuccessful. Try again later");
-  };
-
+  console.log(showPassword);
   return (
     <Container className={classes.theatre} maxWidth="false" disableGutters>
       <Container maxWidth="xs" position="relative">
@@ -100,86 +87,145 @@ const Auth = () => {
           <Avatar className={classes.avatar}>
             <LockOutlined />
           </Avatar>
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               {isSignup && (
                 <>
-                  <Input
-                    name="firstName"
-                    label="First Name"
-                    handleChange={handleChange}
-                    autoFocus
-                    half
-                  />
-                  <Input
-                    name="lastName"
-                    label="Last Name"
-                    handleChange={handleChange}
-                    half
-                  />
-                  <Input
-                    name="username"
-                    label="Username"
-                    handleChange={handleChange}
-                    errorExists={userErr !== undefined}
-                    helperText={userErr !== undefined && userErr}
-                  />
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      id="firstName"
+                      name="firstName"
+                      label="First Name"
+                      type="text"
+                      onChange={formik.handleChange}
+                      value={formik.values.firstName}
+                      error={
+                        formik.touched.firstName &&
+                        Boolean(formik.errors.firstName)
+                      }
+                      helperText={
+                        formik.touched.firstName && formik.errors.firstName
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      id="lastName"
+                      name="lastName"
+                      label="Last Name"
+                      type="text"
+                      onChange={formik.handleChange}
+                      value={formik.values.lastName}
+                      error={
+                        formik.touched.lastName &&
+                        Boolean(formik.errors.lastName)
+                      }
+                      helperText={
+                        formik.touched.lastName && formik.errors.lastName
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      id="username"
+                      name="username"
+                      label="Username"
+                      type="text"
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                      error={
+                        formik.touched.username &&
+                        Boolean(formik.errors.username)
+                      }
+                      helperText={
+                        formik.touched.username && formik.errors.username
+                      }
+                    />
+                  </Grid>
                 </>
               )}
-              <Input
-                name="email"
-                label="Email Address"
-                handleChange={handleChange}
-                type="email"
-                errorExists={emailErr !== undefined}
-                helperText={emailErr !== undefined && emailErr}
-              />
-              <Input
-                name="password"
-                label="Password"
-                handleChange={handleChange}
-                type={showPassword ? "text" : "password"}
-                handleShowPassword={handleShowPassword}
-                errorExists={passErr !== undefined}
-                helperText={passErr !== undefined && passErr}
-              />
-              {isSignup && (
-                <Input
-                  name="confirmPassword"
-                  label="Repeat password"
-                  handleChange={handleChange}
-                  type="password"
-                  errorExists={confirmErr !== undefined}
-                  helperText={confirmErr !== undefined && confirmErr}
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="email"
+                  name="email"
+                  label="Email"
+                  type="email"
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="password"
+                  name="password"
+                  label="Password"
+                  onChange={formik.handleChange}
+                  type={showPassword ? "text" : "password"}
+                  value={formik.values.password}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword}>
+                          {!showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+
+              {isSignup && (
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.confirmPassword}
+                    error={
+                      formik.touched.confirmPassword &&
+                      Boolean(formik.errors.confirmPassword)
+                    }
+                    helperText={
+                      formik.touched.confirmPassword &&
+                      formik.errors.confirmPassword
+                    }
+                  />
+                </Grid>
               )}
             </Grid>
+
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               className={classes.submit}
+              type="submit"
             >
               {isSignup ? "Sign Up" : "Sign In"}
             </Button>
-            <GoogleLogin
-              clientId="1050871160315-68eql4v8bjj23q4p9c9347cbifnnoqdf.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <Button
-                  className={classes.googleButton}
-                  fullWidth
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disable}
-                  startIcon={<Icon />}
-                  variant="contained"
-                >
-                  Google Sign In
-                </Button>
-              )}
-              onSuccess={googleSuccess}
-              onFailure={googleFailure}
-              cookiePolicy="single_host_origin"
-            />
+
             <Grid container justify="flex-end">
               <Grid item>
                 <Button onClick={switchMode}>
