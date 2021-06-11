@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LockOutlined from "@material-ui/icons/LockOutlined";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -54,6 +54,9 @@ const Auth = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const apiErrors = useSelector((state) => state.uiReducer.errors);
+  console.log(apiErrors);
+
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -79,7 +82,6 @@ const Auth = () => {
     onSubmit: handleSubmit,
   });
 
-  console.log(showPassword);
   return (
     <Container className={classes.theatre} maxWidth="false" disableGutters>
       <Container maxWidth="xs" position="relative">
