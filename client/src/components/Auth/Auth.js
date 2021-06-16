@@ -103,6 +103,7 @@ const Auth = () => {
                       id="firstName"
                       name="firstName"
                       label="First Name"
+                      InputLabelProps={{ style: { color: "#000000" } }}
                       type="text"
                       onChange={formik.handleChange}
                       value={formik.values.firstName}
@@ -123,6 +124,7 @@ const Auth = () => {
                       id="lastName"
                       name="lastName"
                       label="Last Name"
+                      InputLabelProps={{ style: { color: "#000000" } }}
                       type="text"
                       onChange={formik.handleChange}
                       value={formik.values.lastName}
@@ -143,6 +145,7 @@ const Auth = () => {
                       id="username"
                       name="username"
                       label="Username"
+                      InputLabelProps={{ style: { color: "#000000" } }}
                       type="text"
                       onChange={formik.handleChange}
                       value={formik.values.username}
@@ -164,6 +167,7 @@ const Auth = () => {
                   id="email"
                   name="email"
                   label="Email"
+                  InputLabelProps={{ style: { color: "#000000" } }}
                   type="email"
                   onChange={formik.handleChange}
                   value={formik.values.email}
@@ -175,10 +179,12 @@ const Auth = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  color="text"
                   variant="outlined"
                   id="password"
                   name="password"
                   label="Password"
+                  InputLabelProps={{ style: { color: "#000000" } }}
                   onChange={formik.handleChange}
                   type={showPassword ? "text" : "password"}
                   value={formik.values.password}
@@ -206,6 +212,7 @@ const Auth = () => {
                     id="confirmPassword"
                     name="confirmPassword"
                     label="Confirm Password"
+                    InputLabelProps={{ style: { color: "#000000" } }}
                     type="password"
                     onChange={formik.handleChange}
                     value={formik.values.confirmPassword}
@@ -224,7 +231,9 @@ const Auth = () => {
               {apiErrors && (
                 <Grid item xs={12}>
                   {apiErrors.map((item, index) => (
-                    <Typography key={index} color='secondary'>{item.msg}</Typography>
+                    <Typography key={index} color="secondary">
+                      {item.msg}
+                    </Typography>
                   ))}
                 </Grid>
               )}
