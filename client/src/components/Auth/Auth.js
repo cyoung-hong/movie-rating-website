@@ -9,6 +9,7 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  Typography,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
@@ -55,12 +56,14 @@ const Auth = () => {
   const dispatch = useDispatch();
 
   const apiErrors = useSelector((state) => state.uiReducer.errors);
-  console.log(apiErrors);
 
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (values) => {
+    if (apiErrors) {
+      console.log(apiErrors[0]);
+    }
     if (isSignup) {
       dispatch(signup(values, history));
     } else {
@@ -190,7 +193,7 @@ const Auth = () => {
                           {!showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
-                    )
+                    ),
                   }}
                 />
               </Grid>
@@ -215,6 +218,14 @@ const Auth = () => {
                       formik.errors.confirmPassword
                     }
                   />
+                </Grid>
+              )}
+
+              {apiErrors && (
+                <Grid item xs={12}>
+                  {apiErrors.map((item, index) => (
+                    <Typography key={index} color='secondary'>{item.msg}</Typography>
+                  ))}
                 </Grid>
               )}
             </Grid>
