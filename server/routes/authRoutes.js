@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import {
   signin,
   signup,
+  changePassword,
   isAuthenticated
 } from "../controllers/authController.js";
 
@@ -17,6 +18,7 @@ router.get("/", isAuthenticated);
 
 router.post("/signin", passport.authenticate("local-login"), signin);
 router.post("/signup", signupSchema, validateRequest, signup);
+router.post("/change", changePassword);
 
 router.get("/signout", (req, res) => {
   req.logOut();
