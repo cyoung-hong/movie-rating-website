@@ -38,6 +38,7 @@ const App = () => {
     dispatch(authenticate());
   };
 
+  // When user is logged in timeout is short, when user is logged out no timer or timer is long
   const { getRemainingTime, getLastActiveTime } = useIdleTimer({
     timeout: 1000 * 60 * 2,
     onIdle: handleOnIdle,
