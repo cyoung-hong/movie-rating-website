@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Group from "../models/Group.js";
 import GroupInquiry from "../models/GroupInquiry.js";
+import User from '../models/User.js';
 
 const roleCheck = (user, group) => {
   const member = group.members.find((m) => m.username === user.username);
@@ -41,8 +42,10 @@ export const getGroupById = async (req, res) => {
 export const createGroup = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
-      const data = req.body;
+      const {data} = req.body;
+      const {user} = req.user;
       const members = [];
+      const groupRecs = [];
 
       console.log(data);
 
@@ -55,16 +58,25 @@ export const createGroup = async (req, res) => {
       }
 
       const foundingMember = {
+        userId: req.user._id,
         username: req.user.username,
         picturePath: req.user.picturePath,
         role: "admin",
       };
       members.push(foundingMember);
 
+      const memberRecommendation = await Recommendation.findOne({
+        "recommender.userId": req.user._id,
+      });
+      groupRecs.push(memberRecommendation);
+      
       const newGroup = new Group({
         groupName: data.groupName,
         members: members,
+        groupRecs: groupRecs,
       });
+
+      // TODO SET ACTIVE GROUP FOR CURRENT USER
 
       newGroup
         .save()
