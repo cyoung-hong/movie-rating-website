@@ -1,6 +1,8 @@
-import Recommendation from "../models/Recommendation.js";
 import mongoose from "mongoose";
-import axios from 'axios';
+import axios from "axios";
+
+import Recommendation from "../models/Recommendation.js";
+import Group from "../models/Group.js";
 
 // axios.get(`/request/${filter}/${id}`)
 export const getRequestTest = async (req, res) => {
@@ -39,7 +41,7 @@ export const getMyRecs = async (req, res) => {
       const myRecs = await Recommendation.find({
         "recommender.userId": req.user._id,
       }).select("-recommender");
-      
+
       res.status(200).json(myRecs);
     } else {
       res.status(401).json({ message: "Unauthorized, please login." });
@@ -79,6 +81,27 @@ export const getRecsById = async (req, res) => {
   }
 };
 
+// Get group recommendations from Group document.
+export const getRecsByGroup = async (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      console.log(req.user);
+      const { groupId } = req.body;
+      
+      const groupRecs = await Group.findById({ groupId }).select("groupRecs");
+      // Alternatively, groupRecs = await Recommendations.find({"group.groupId": groupId});
+
+      if (groupRecs) {
+        res.status(200).json(groupRecs);
+      } else {
+        res.status(401).json({ message: "Nothing found." });
+      }
+    } else {
+      res.status(401).json({ message: "Unauthorized, please login." });
+    }
+  } catch (error) {}
+};
+
 export const createRec = async (req, res) => {
   // Check is user is authenticated
   // Check if user made request already
@@ -96,11 +119,11 @@ export const createRec = async (req, res) => {
         return res.status(409).json({ error: "Request already exists." });
       }
 
-      // TODO Improve performance here. 
+      // TODO Improve performance here.
       // Slows down adding of movie significantly
       const movie = await axios.get(
         `${process.env.TMDB_API}movie/${rec.movie.tmdbID}?api_key=${process.env.TMDB_KEY}&language=en-US`
-      );  
+      );
 
       const newRec = new Recommendation({
         recommender: {
