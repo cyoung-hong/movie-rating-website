@@ -20,6 +20,23 @@ router.post("/change", changeUserRole);
 router.post("/remove", removeUser);
 router.delete("/delete/:id", deleteGroup);
 
+import User from "../models/User.js";
+import Recommendation from "../models/Recommendation.js";
+
+router.get("/create/test", async (req, res) => {
+  console.log("In test route.");
+  try {
+    if (req.isAuthenticated()) {
+      const memberRecommendation = await Recommendation.findOne({
+        "recommender.userId": req.user._id,
+      });
+     
+
+      res.status(201).json({ memberRecommendation });
+    }
+  } catch (err) {}
+});
+
 // Potential validation middleware
 // import { body } from "express-validator";
 // import { validateRequest } from "../middleware/validateRequest.js";
