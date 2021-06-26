@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import TextField from "../Form/TextfieldWrapper.js";
 import Button from "../Form/SubmitButton.js";
@@ -53,7 +53,7 @@ const CreateGroup = () => {
               <Grid item>
                 <FileUpload />
               </Grid>
-              
+
               <Grid item>
                 <Button color="secondary">Submit</Button>
               </Grid>
@@ -67,8 +67,7 @@ const CreateGroup = () => {
 
 export default CreateGroup;
 
-{
-  /* <form onSubmit={formik.handleSubmit}>
+/* <form onSubmit={formik.handleSubmit}>
 <label htmlFor="groupName">Group Name</label>
 <input
   id="groupName"
@@ -83,4 +82,3 @@ export default CreateGroup;
 )}
 <button type="submit">Submit</button>
 </form> */
-}

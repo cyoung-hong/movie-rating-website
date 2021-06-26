@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -6,7 +6,6 @@ import {
   CircularProgress,
   CssBaseline,
   makeStyles,
-  useMediaQuery,
 } from "@material-ui/core";
 
 import ResultDetail from "./ResultDetail/ResultDetail.js";

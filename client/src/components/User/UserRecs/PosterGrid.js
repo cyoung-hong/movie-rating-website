@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   GridList,
   GridListTile,
   GridListTileBar,
-  Fade,
   useMediaQuery,
 } from "@material-ui/core";
 import moment from "moment";
 
 import { useSelector } from "react-redux";
-import CustomTile from "./CustomTile.js";
-
 const useStyles = makeStyles((theme) => ({
   gridList: {
     cols: 4,
@@ -28,18 +25,11 @@ const PosterGrid = () => {
   const classes = useStyles();
   const recList = useSelector((state) => state.recReducer.myRecs);
 
-  const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState();
-
   const onEnter = (index) => {
-    //setSelected(index);
-    console.log(selected);
-    //setShow(true);
+
   };
 
   const onExit = (index) => {
-    // console.log(index);
-    //setShow(false);
   };
 
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))

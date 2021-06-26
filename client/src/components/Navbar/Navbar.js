@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signOut } from "../../redux/actions/authActions.js";
 
 //MUI
@@ -18,7 +18,6 @@ import useStyles from "./styles";
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const user = useSelector((state) => state.authReducer.user);
   const loggedIn = useSelector((state) => state.authReducer.loggedIn);

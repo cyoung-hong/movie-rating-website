@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Grid, CssBaseline, Fragment } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Grid, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 // Components
-import UserInfo from "./UserInfo.js";
-import UserRecs from "./UserRecs/UserRecs.js";
-import RecDetails from "../Recommendations/RecDetail/RecDetail.js";
-import PosterGrid from "./UserRecs/PosterGrid.js";
+// import UserInfo from "./UserInfo.js";
+// import UserRecs from "./UserRecs/UserRecs.js";
+// import RecDetails from "../Recommendations/RecDetail/RecDetail.js";
+// import PosterGrid from "./UserRecs/PosterGrid.js";
 import CustomGrid from "./UserRecs/CutomGrid.js";
 
 //REDUX
@@ -48,11 +48,11 @@ const User = () => {
       <CssBaseline />
       <Grid className={classes.mainContainer} container>
 
-        <Grid className={classes.groupList} item>
+        <Grid className={classes.groupList} item xs={12}>
           <CustomGrid list={groupList}/>
         </Grid>
 
-        <Grid item>
+        <Grid item xs={12}>
           <CustomGrid list={recList}/>
         </Grid>
 
