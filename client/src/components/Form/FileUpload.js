@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 
 import {imagesRef} from "../../firebase/index.js";
 
@@ -8,7 +8,7 @@ import {imagesRef} from "../../firebase/index.js";
 
 
 const FileUpload = () => {
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [user, setUser] = useState('testUser');
     const [url, setUrl] = useState();
@@ -42,7 +42,7 @@ const FileUpload = () => {
         <div>
             <input type="file" onChange={handleChange} />
             <button onClick={handleSubmit}>Submit</button>
-            <img src={url} />
+            <img src={url} alt='file preview'/>
         </div>
     )
 }
