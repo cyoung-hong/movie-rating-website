@@ -15,7 +15,7 @@ export const signin = async (req, res) => {
   try {
     const { _id, username, picturePath } = req.user;
     const user = {
-      id: _id,
+      _id: _id,
       username,
       picturePath,
     };
@@ -47,7 +47,15 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(200).json({ message: `${username} successfully created!` });
+    if(result) {
+      res.status(200).json({ 
+        user: {
+          _id: result._id,
+          username: result.username,
+          picturePath: result.picturePath,
+        },
+        message: `${result.username} successfully created!` });
+    }
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }
