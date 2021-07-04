@@ -1,20 +1,21 @@
-import { GET_RECOMMENDATIONS, GET_MY_RECS } from "../actionTypes.js";
+import { GET_RECOMMENDATIONS, GET_MY_RECOMMENDATIONS, GET_GROUP_RECOMMENDATIONS } from "../actionTypes.js";
 
 const initialState = {
-  allRecs: [{}],
-  myRecs: [{}],
+  allRecommendations: [],
+  myRecommendations: [],
+  groupRecommendations: [],
 };
 
 const recReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_RECOMMENDATIONS:
       return state;
-    case GET_MY_RECS:
+    case GET_MY_RECOMMENDATIONS:
       console.log(action);
       return {
         ...state,
-        myRecs: action.payload
-      }
+        myRecommendations: action.payload,
+      };
     default:
       return state;
   }
