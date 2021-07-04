@@ -11,7 +11,7 @@ import CustomGrid from "./UserRecs/CutomGrid.js";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { getMyRecs } from "../../redux/actions/recActions.js";
+import { getMyRecs, getGroupRecommendations } from "../../redux/actions/recActions.js";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -34,13 +34,14 @@ const useStyles = makeStyles((theme) => ({
 
 const User = () => {
   const classes = useStyles();
-  const groupList = useSelector((state) => state.recReducer.groupRecs);
-  const recList = useSelector((state) => state.recReducer.myRecs);
+  const groupList = useSelector((state) => state.recommendations.groupRecommendations);
+  const recList = useSelector((state) => state.recommendations.myRecommendations);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMyRecs());
+    // dispatch(getGroupRecommendations());
   }, [dispatch]);
 
   return (
@@ -48,7 +49,7 @@ const User = () => {
       <CssBaseline />
       <Grid className={classes.mainContainer} container>
 
-        <Grid className={classes.groupList} item xs={12}>
+        <Grid item xs={12}>
           <CustomGrid list={groupList}/>
         </Grid>
 

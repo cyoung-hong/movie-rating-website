@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PosterGrid = () => {
   const classes = useStyles();
-  const recList = useSelector((state) => state.recReducer.myRecs);
+  const recList = useSelector((state) => state.recommendations.myRecs);
 
   const onEnter = (index) => {
 

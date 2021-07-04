@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 // ];
 
 const ResultList = () => {
-  const resultList = useSelector((state) => state.tmdbReducer.results);
+  const resultList = useSelector((state) => state.tmdb.results);
   const classes = useStyles();
 
   return !resultList?.length ? (
