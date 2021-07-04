@@ -1,12 +1,12 @@
-import {CREATE_GROUP} from "../actionTypes.js";
+import { CREATE_GROUP } from "../actionTypes.js";
 import * as api from "../../api/index.js";
 
+// Action Creator
 export const createGroup = (formData, history) => async (dispatch) => {
-    try {
-        const {data} = await api.createGroup(formData);
-        dispatch({type: CREATE_GROUP, data});
-
-    } catch (error) {
-        console.log(error);
-    }
-}
+  try {
+    const { data } = await api.createGroup(formData);
+    dispatch({ type: CREATE_GROUP, data });
+  } catch (error) {
+    console.log(error);
+  }
+};
