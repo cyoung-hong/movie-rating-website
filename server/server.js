@@ -42,9 +42,9 @@ var sesh = {
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   cookie: {
-    maxAge: 1000 * 60 * 2, // 3 hours
+    maxAge: 1000 * 60 * 2, // 3 hours, Currently 2 minutes
   },
-  clearInterval: 1000 * 60,  // 1 hour
+  clearInterval: 1000 * 60,  // 1 hour, Currently 1 minute
   unset: 'destroy',
 }
 
@@ -61,7 +61,7 @@ app.get('/', (req,res,next) => {
   res.send("Hello World, cookie please?");
 })
 app.use("/api/tmdb", tmdbRoutes);
-app.use("/api/recs", recRoutes);
+app.use("/api/recommendations", recRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes);
