@@ -50,9 +50,9 @@ const CreateGroup = () => {
               <Grid item xs={12}>
                 <TextField name="groupName" label="Group Name" />
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <FileUpload />
-              </Grid>
+              </Grid> */}
 
               <Grid item>
                 <Button color="secondary">Submit</Button>
