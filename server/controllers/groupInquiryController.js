@@ -3,9 +3,10 @@ import GroupInquiry from "../models/GroupInquiry.js";
 export const createInquiry = async (req, res) => {
   try {
     const { group, user } = req.body;
+    console.log(group);
     const foundInquiry = await GroupInquiry.findOne({
-      "group.id": group.id,
-      "user.id": user.id,
+      "group._id": group._id,
+      "user._id": user._id,
     });
 
     if (!req.isAuthenticated()) {
@@ -15,12 +16,12 @@ export const createInquiry = async (req, res) => {
     }
 
     if (foundInquiry) {
-        return res.status(409).json({ error: "Request already exists" });
-    } 
-    
+      return res.status(409).json({ error: "Request already exists" });
+    }
+
     const newInquiry = new GroupInquiry({
       group,
-      user,
+      user
     });
 
     const savedInquiry = await newInquiry.save();
@@ -38,7 +39,4 @@ export const createInquiry = async (req, res) => {
   }
 };
 
-export const deleteInquiryById = async(req,res) => {
-  
-}
-
+export const deleteInquiryById = async (req, res) => {};
