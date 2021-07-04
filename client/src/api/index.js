@@ -12,15 +12,16 @@ API.interceptors.request.use((req) => {
 
 export const fetchRatings = () => API.get('/ratings');
 
-// Request endpoints
-export const getRecommendations = () => API.get('/recs');
-export const getMyRecs = () => API.get('/recs/myRecs', {withCredentials: true});
-export const getRecByUser = () => API.get('/recs/user');
-export const createRec = (movieData) => API.post('/recs/create', movieData, {withCredentials: true});
-
+// Recommendation endpoints
+export const getRecommendations = () => API.get('/recommendations');
+export const getMyRecs = () => API.get('/recommendations/myRecs', {withCredentials: true});
+export const getRecByUser = () => API.get('/recommendations/user');
+export const createRec = (movieData) => API.post('/recommendations/create', movieData, {withCredentials: true});
+// export const getGroupRecommendations = (groupId) => API.get(`/recommendations/group/${groupId}`);
 
 // Group endpoints
 export const createGroup = (formData) => API.post("/groups/create", formData, {withCredentials: true});
+// export const getGroupRecs = (groupId) => API.get(`/group/recommendations/${groupId}`);
 
 // Auth endpoints
 export const signIn = (formData) => API.post('/auth/signin', formData, {withCredentials: true});
