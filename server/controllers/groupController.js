@@ -1,11 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import Group from "../models/Group.js";
 import GroupInquiry from "../models/GroupInquiry.js";
-import User from '../models/User.js';
+import User from "../models/User.js";
+import Recommendation from "../models/Recommendation.js";
 
-const roleCheck = (user, group) => {
+const checkAdmin = (user, group) => {
   const member = group.members.find((m) => m.username === user.username);
-  return member?.role;
+  return member?.isAdmin;
 };
 
 // Get groups
@@ -25,7 +26,8 @@ export const getGroups = async (req, res) => {
 // Get group by group id
 export const getGroupById = async (req, res) => {
   try {
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(404).json({ message: 'Invalid ID.'});
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      res.status(404).json({ message: "Invalid ID." });
 
     const group = await Group.findById(req.params.id);
     if (group) {
@@ -42,14 +44,26 @@ export const getGroupById = async (req, res) => {
 export const createGroup = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
-      const {data} = req.body;
-      const {user} = req.user;
+      const data = req.body;
+      const { user } = req;
       const members = [];
-      const groupRecs = [];
-
-      console.log(data);
+      const groupRecommendations = [];
 
       const existingGroup = await Group.findOne({ groupName: data.groupName });
+      const memberRecommendation = await Recommendation.findOne({
+        "recommender._id": req.user._id,
+      });
+
+      const foundingMember = {
+        _id: user._id,
+        username: user.username,
+        picturePath: user.picturePath,
+        isAdmin: true,
+      };
+
+      members.push(foundingMember);
+      groupRecommendations.push(memberRecommendation);
+
       //Check if a group exists with the same name
       if (existingGroup) {
         return res
@@ -57,31 +71,17 @@ export const createGroup = async (req, res) => {
           .send({ message: "A group with that name already exists" });
       }
 
-      const foundingMember = {
-        userId: req.user._id,
-        username: req.user.username,
-        picturePath: req.user.picturePath,
-        role: "admin",
-      };
-      members.push(foundingMember);
-
-      const memberRecommendation = await Recommendation.findOne({
-        "recommender.userId": req.user._id,
-      });
-      groupRecs.push(memberRecommendation);
-      
       const newGroup = new Group({
         groupName: data.groupName,
         members: members,
-        groupRecs: groupRecs,
+        groupRecommendations: groupRecommendations,
       });
 
       // TODO SET ACTIVE GROUP FOR CURRENT USER
-
       newGroup
         .save()
-        .then((savedReq) => {
-          res.status(201).json({ savedReq });
+        .then((savedGroup) => {
+          res.status(201).json({ savedGroup });
         })
         .catch((err) => {
           console.log(err);
@@ -92,7 +92,7 @@ export const createGroup = async (req, res) => {
       res.status(401).json({ error: "Unauthorized, please sign in." });
     }
   } catch (error) {
-    console.log("Group creation error");
+    console.log("Group creation error: " + error);
     res.status(500).json({ error });
   }
 };
@@ -104,10 +104,10 @@ export const addUser = async (req, res) => {
     const { group, user } = req.body;
 
     const inquiry = await GroupInquiry.findOne({
-      "group.id": group.id,
-      "user.id": user.id,
+      "group._id": group._id,
+      "user._id": user._id,
     });
-    const existingGroup = await Group.findOne({ _id: group.id });
+    const existingGroup = await Group.findOne({ _id: group._id });
 
     if (!req.isAuthenticated()) {
       return res
@@ -115,7 +115,7 @@ export const addUser = async (req, res) => {
         .json({ message: "Unauthorized access. Please login." });
     }
     // Check that the user is an admin of the group
-    if (roleCheck(req.user, existingGroup) !== "admin") {
+    if (!checkAdmin(req.user, existingGroup)) {
       return res.status(401).json({
         message:
           "You do not have permissions to add users. Please contact a group admin.",
@@ -133,7 +133,7 @@ export const addUser = async (req, res) => {
     }
 
     // That the applicant is not already a member, if they are delete the inquiry
-    if (roleCheck(user, existingGroup)) {
+    if (checkAdmin(user, existingGroup)) {
       const deleteInquiry = await GroupInquiry.deleteOne({ _id: inquiry._id });
       if (deleteInquiry) {
         return res.status(409).json({
@@ -174,7 +174,7 @@ export const addUser = async (req, res) => {
 export const changeUserRole = async (req, res) => {
   try {
     const { group, user, newRole } = req.body;
-    const existingGroup = await Group.findOne({ _id: group.id });
+    const existingGroup = await Group.findOne({ _id: group._id });
     const member = existingGroup.members.find(
       (m) => m.username === user.username
     );
@@ -198,7 +198,7 @@ export const changeUserRole = async (req, res) => {
     }
 
     // Check that the user is an admin of the group
-    if (roleCheck(req.user, existingGroup) !== "admin") {
+    if (!checkAdmin(req.user, existingGroup)) {
       return res.status(401).json({
         message:
           "You do not have permissions to add users. Please contact a group admin.",
@@ -245,7 +245,7 @@ export const changeUserRole = async (req, res) => {
 export const removeUser = async (req, res) => {
   try {
     const { group, user } = req.body;
-    const existingGroup = await Group.findOne({ _id: group.id });
+    const existingGroup = await Group.findOne({ _id: group._id });
     const member = existingGroup.members.find(
       (m) => m.username === user.username
     );
@@ -280,7 +280,7 @@ export const removeUser = async (req, res) => {
       { _id: existingGroup._id, "members.username": user.username },
       {
         $pull: {
-          members: { id: user.id },
+          members: { _id: user._id },
         },
       }
     );
@@ -300,7 +300,8 @@ export const removeUser = async (req, res) => {
 // Consider adding role for website admin to be able to remove groups.
 export const deleteGroup = async (req, res) => {
   try {
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(404).json({ message: 'Invalid ID.'});
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      res.status(404).json({ message: "Invalid ID." });
 
     const existingGroup = await Group.findById(req.params.id);
 
@@ -325,8 +326,11 @@ export const deleteGroup = async (req, res) => {
 
     const group = await Group.findByIdAndDelete(req.params.id);
 
-    if (group) { res.status(200).json({message: `Group deleted successfully!`}); } 
-    else { res.status(404).json({ error: "Group not found." });  }
+    if (group) {
+      res.status(200).json({ message: `Group deleted successfully!` });
+    } else {
+      res.status(404).json({ error: "Group not found." });
+    }
   } catch (error) {
     res.status(500).json({ error });
   }
