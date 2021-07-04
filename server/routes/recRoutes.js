@@ -5,7 +5,7 @@ import {
   getRecsById,
   createRec,
   getRecsByUser,
-  getRecsByGroup,
+  getRecommendationsByGroup,
   deleteRec,
   updateRec,
 } from "../controllers/recController.js";
@@ -18,7 +18,7 @@ const router = express.Router();
 router.get("/", getRecommendations);
 router.get("/myRecs", getMyRecs);
 router.get("/user/:userId", getRecsByUser);
-router.get("/group", getRecsByGroup)
+router.get("/group/:groupId", getRecommendationsByGroup)
 router.get("/:id", getRecsById);
 
 router.post("/create", createRec);
