@@ -55,7 +55,7 @@ const Auth = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const apiErrors = useSelector((state) => state.uiReducer.errors);
+  const apiErrors = useSelector((state) => state.ui.errors);
 
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -67,7 +67,9 @@ const Auth = () => {
     if (isSignup) {
       dispatch(signup(values, history));
     } else {
-      dispatch(signin(values, history)).then(() => dispatch(getMyRecs()));
+      dispatch(signin(values, history)).then(() => {
+        history.push("/");
+      });
     }
   };
 
