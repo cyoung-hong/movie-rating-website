@@ -1,5 +1,5 @@
 import * as api from "../../api/index.js";
-import {GET_RECOMMENDATIONS, GET_MY_RECS} from '../actionTypes.js';
+import {GET_RECOMMENDATIONS, GET_MY_RECOMMENDATIONS } from '../actionTypes.js';
 
 export const getRecommendations = () => async (dispatch) => {
   try {
@@ -14,9 +14,9 @@ export const getRecommendations = () => async (dispatch) => {
 export const getMyRecs = () => async (dispatch) => {
   try{ 
     const {data} = await api.getMyRecs();
-    console.log(data);
+
     if(data) {
-      dispatch({type: GET_MY_RECS, payload: data});
+      dispatch({type: GET_MY_RECOMMENDATIONS, payload: data});
     }
   } catch (error) { 
     if(error.message === 'Request failed with status code 401') {
