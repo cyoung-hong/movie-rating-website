@@ -26,7 +26,7 @@ export const getGroupInvites = async (req, res) => {
   if (req.isAuthenticated()) {
     const invites = await GroupInquiry.find({
       origin: "group",
-      "user.id": req.user._id,
+      "user._id": req.user._id,
     });
   }
 };

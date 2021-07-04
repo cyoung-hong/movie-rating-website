@@ -15,7 +15,7 @@ export const getRequestTest = async (req, res) => {
 
   if (filter === "self") {
     const requests = await Recommendation.find({
-      "recommender.id": req.user._id,
+      "recommender._id": req.user._id,
     });
   }
 
@@ -39,8 +39,8 @@ export const getMyRecs = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
       const myRecs = await Recommendation.find({
-        "recommender.userId": req.user._id,
-      }).select("-recommender");
+        "recommender._id": req.user._id,
+      }).select("-recommender -groups");
 
       res.status(200).json(myRecs);
     } else {
@@ -82,17 +82,13 @@ export const getRecsById = async (req, res) => {
 };
 
 // Get group recommendations from Group document.
-export const getRecsByGroup = async (req, res) => {
+export const getRecommendationsByGroup = async (req, res) => {
   try {
+    console.log("HELLO");
     if (req.isAuthenticated()) {
-      console.log(req.user);
-      const { groupId } = req.body;
-      
-      const groupRecs = await Group.findById({ groupId }).select("groupRecs");
-      // Alternatively, groupRecs = await Recommendations.find({"group.groupId": groupId});
-
-      if (groupRecs) {
-        res.status(200).json(groupRecs);
+      const groupRecommendations = await Group.findById(req.params.groupId).select("groupRecommendations");
+      if (groupRecommendations) {
+        res.status(200).json(groupRecommendations);
       } else {
         res.status(401).json({ message: "Nothing found." });
       }
@@ -111,7 +107,7 @@ export const createRec = async (req, res) => {
 
       // Check if there is a request that matches these two fields
       const foundRec = await Recommendation.findOne({
-        "recommender.userId": req.user._id,
+        "recommender._id": req.user._id,
         "movie.tmdbID": rec.movie.tmdbID,
       });
 
@@ -127,7 +123,7 @@ export const createRec = async (req, res) => {
 
       const newRec = new Recommendation({
         recommender: {
-          userId: req.user._id,
+          _id: req.user._id,
           username: req.user.username,
         },
         movie: {

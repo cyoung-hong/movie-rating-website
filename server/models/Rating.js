@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const ratingSchema = mongoose.Schema({
-    rater: {userId: mongoose.Schema.ObjectId, username: String},
+    rater: {_id: mongoose.Schema.ObjectId, username: String},
     rating: Number,
     comment: String,
     movie: {
