@@ -22,9 +22,9 @@ const CustomGrid = ({ list }) => {
   return (
     <Grid className={classes.gridWrapper} item xs={12}>
       <Grid className={classes.gridContainer} spacing={1} container>
-        {list ? (
+        {list.length > 0 ? (
           list.map((rec) => (
-            <Grid className={classes.tileWrapper} item>
+            <Grid className={classes.tileWrapper} key={rec.id} item>
               <CustomTile className={classes.tile} rec={rec} />
             </Grid>
           ))
