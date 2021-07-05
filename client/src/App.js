@@ -17,6 +17,7 @@ import Auth from "./components/Auth/Auth.js";
 import ResultList from "./components/ResultList/ResultList.js";
 import User from "./components/User/User.js";
 import GroupForm from "./components/Group/CreateGroup.js";
+import Group from "./components/Group/Group.js";
 
 import { useIdleTimer } from "react-idle-timer";
 
@@ -54,7 +55,7 @@ const App = () => {
           <Route exact path="/auth" component={Auth} />
           <Route exact path="/results" component={ResultList} />
           <Route exact path="/user" component={User} />
-          <Route exact path="/group" component={GroupForm} />
+          <Route exact path="/group" component={Group} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
