@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfilePicture = (props) => {
   const classes = useStyles(props);
-  console.log(props);
   return <Grid className={classes.profilePicture} xs={12} item />;
 };
 
