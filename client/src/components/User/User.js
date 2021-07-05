@@ -7,7 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 // import UserRecs from "./UserRecs/UserRecs.js";
 // import RecDetails from "../Recommendations/RecDetail/RecDetail.js";
 // import PosterGrid from "./UserRecs/PosterGrid.js";
-import CustomGrid from "./UserRecs/CutomGrid.js";
+import CustomGrid from "./UserRecs/CustomGrid.js";
+import Group from "../Group/Group.js";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -50,7 +51,7 @@ const User = () => {
       <Grid className={classes.mainContainer} container>
 
         <Grid item xs={12}>
-          <CustomGrid list={groupList}/>
+          <Group />
         </Grid>
 
         <Grid item xs={12}>
