@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomGrid = ({ list }) => {
+const CustomGrid = ({ list, spacing}) => {
   const classes = useStyles();
 
   return (
     <Grid container>
       <Grid className={classes.gridWrapper} item xs={12}>
-        <Grid className={classes.gridContainer} spacing={1} container>
+        <Grid className={classes.gridContainer} spacing={spacing} container>
           {list.length > 0 ? (
             list.map((rec) => (
               <Grid className={classes.tileWrapper} key={rec.id} item>

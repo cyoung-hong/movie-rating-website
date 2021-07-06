@@ -51,11 +51,11 @@ const User = () => {
       <Grid className={classes.mainContainer} container>
 
         <Grid item xs={12}>
-          <Group />
+         
         </Grid>
 
         <Grid item xs={12}>
-          <CustomGrid list={recList}/>
+          <CustomGrid list={recList} spacing={1}/>
         </Grid>
 
       </Grid>

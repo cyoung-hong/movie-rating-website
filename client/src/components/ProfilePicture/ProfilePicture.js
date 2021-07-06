@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    borderRadius: "200px",
-    height: 150,
+    borderRadius: "50px",
+    height: (props) => props.height,
   },
 }));
 
