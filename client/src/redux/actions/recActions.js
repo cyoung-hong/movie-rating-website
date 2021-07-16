@@ -27,6 +27,18 @@ export const getMyRecs = () => async (dispatch) => {
   }
 }
 
+// export const getMyGroupRecommendations = () => async (dispatch) => {
+//   try {
+//     const {data} = await api.
+
+//   } catch (error) {
+//     if(error.message === 'Request failed with status code 401') {
+//       console.log('Please login');
+//     }
+//     console.log(error.message);
+//   }
+// }
+
 // export const getRecByUser = () => async (dispatch) => {
 //   try{ 
 //     const {data} = await api.getRecByUser();
