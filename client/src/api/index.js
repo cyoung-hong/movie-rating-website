@@ -20,6 +20,7 @@ export const createRec = (movieData) => API.post('/recommendations/create', movi
 // export const getGroupRecommendations = (groupId) => API.get(`/recommendations/group/${groupId}`);
 
 // Group endpoints
+export const getGroups = () => API.get("/groups/");
 export const createGroup = (formData) => API.post("/groups/create", formData, {withCredentials: true});
 // export const getGroupRecs = (groupId) => API.get(`/group/recommendations/${groupId}`);
 
