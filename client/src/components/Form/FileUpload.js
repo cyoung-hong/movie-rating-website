@@ -7,7 +7,7 @@ import {imagesRef} from "../../firebase/index.js";
 //import { uploadFile } from '../../redux/actions/authActions.js';
 
 
-const FileUpload = () => {
+const FileUpload = ({...props}) => {
     //const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [user, setUser] = useState('testUser');
