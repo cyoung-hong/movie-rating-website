@@ -13,11 +13,12 @@ export const loginTest = passport.authenticate("local-login", {
 
 export const signin = async (req, res) => {
   try {
-    const { _id, username, picturePath } = req.user;
+    const { _id, username, picturePath, activeGroup } = req.user;
     const user = {
       _id: _id,
       username,
       picturePath,
+      activeGroup,
     };
     res.status(200).json({ user });
   } catch (err) {

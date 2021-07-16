@@ -14,7 +14,7 @@ export const getGroups = async (req, res) => {
   try {
     const groups = await Group.find();
     if (groups) {
-      res.status(200).json({ groups });
+      res.status(200).json(groups);
     } else {
       res.status(404).json({ message: "No groups found" });
     }
@@ -78,6 +78,25 @@ export const createGroup = async (req, res) => {
       });
 
       // TODO SET ACTIVE GROUP FOR CURRENT USER
+      const savedGroup = await newGroup.save();
+      if(savedGroup) {
+        const foundUser = await User.findById(user._id);
+        if (!foundUser) {
+          return res.status(404).json({message: 'User not found, unable to update active group.'});
+        } 
+
+        foundUser.activeGroup = savedGroup;
+        const savedUser = foundUser.save();
+        if(savedUser) {
+          return res.status(200).json({ message: 'Group created!' });
+        } else {
+          return res.staus(500).json({message: "Unable to update user's active group. "})
+        }
+      } else {
+        return res.staus(500).json({message: "Unable save group." })
+      }
+
+
       newGroup
         .save()
         .then((savedGroup) => {
