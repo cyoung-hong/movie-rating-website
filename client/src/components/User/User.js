@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, CssBaseline } from "@material-ui/core";
+import { Box, Grid, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 // Components
@@ -7,17 +7,19 @@ import { makeStyles } from "@material-ui/core/styles";
 // import UserRecs from "./UserRecs/UserRecs.js";
 // import RecDetails from "../Recommendations/RecDetail/RecDetail.js";
 // import PosterGrid from "./UserRecs/PosterGrid.js";
-import CustomGrid from "./UserRecs/CustomGrid.js";
+import CustomGrid from "../CustomGrid/CustomGrid.js";
 import Group from "../Group/Group.js";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { getMyRecs, getGroupRecommendations } from "../../redux/actions/recActions.js";
+import {
+  getMyRecs,
+  getGroupRecommendations,
+} from "../../redux/actions/recActions.js";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
     position: "absolute",
-    justifyContent: "center",
     alignContent: "flex-start",
     top: 0,
     left: 0,
@@ -35,29 +37,27 @@ const useStyles = makeStyles((theme) => ({
 
 const User = () => {
   const classes = useStyles();
-  const groupList = useSelector((state) => state.recommendations.groupRecommendations);
-  const recList = useSelector((state) => state.recommendations.myRecommendations);
+  const groupList = useSelector(
+    (state) => state.recommendations.groupRecommendations
+  );
+  const recList = useSelector(
+    (state) => state.recommendations.myRecommendations
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMyRecs());
-    // dispatch(getGroupRecommendations());
+    //dispatch(getGroupRecommendations());
   }, [dispatch]);
 
   return (
     <>
       <CssBaseline />
-      <Grid className={classes.mainContainer} container>
-
-        <Grid item xs={12}>
-         
+      <Grid className={classes.mainContainer} container justify="center">
+        <Grid item>
+          <CustomGrid list={recList} spacing={1} type="movie" />
         </Grid>
-
-        <Grid item xs={12}>
-          <CustomGrid list={recList} spacing={1}/>
-        </Grid>
-
       </Grid>
     </>
   );
