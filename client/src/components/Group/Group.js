@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Button,
@@ -12,7 +12,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch, useSelector } from "react-redux";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture.js";
-import CustomGrid from "../User/UserRecs/CustomGrid.js";
+import CustomGrid from "../CustomGrid/CustomGrid.js";
+import GroupCard from "./GroupCard.js";
+
+import { getGroups } from "../../redux/actions/groupActions.js";
+
 
 import pfp from "../../images/agtown5years.jpg";
 
@@ -71,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
       "radial-gradient(circle, rgba(124,247,251,1) 0%, rgba(9,9,121,1) 100%)",
   },
   groupContainer: {
-    height: "90vh",
+    height: "85vh",
     width: "90%",
     justifyContent: "center",
   },
@@ -100,15 +104,14 @@ const useStyles = makeStyles((theme) => ({
   member: {
     margin: "4px 0px",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   memberPic: {
     marginRight: "4px",
   },
   recommendationContainer: {
-    height: "90vh",
-    // justifyContent: "center",
-    // alignContent: "center",
+    height: "50vh",
+    marginBottom: "8px",
     padding: theme.spacing(2),
     backgroundColor: "#00000080",
   },
@@ -122,14 +125,31 @@ const useStyles = makeStyles((theme) => ({
   button: {
     padding: 0,
   },
+  groupsListContainer: {
+    height: "35vh",
+    maxHeight: "35vh",
+    backgroundColor: "#00000080",
+    padding: theme.spacing(2),
+  },
+  groupsList: {
+    maxHeight: "inherit",
+    maxWidth: "inherit"
+  }
 }));
 
 const Group = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const recList = useSelector(
-    (state) => state.recommendations.myRecommendations
+    (state) => state.auth.user.activeGroup.groupRecommendations
   );
+
+  // Do i need to save in redux? If so, change group reducer slice blah blah
+  const groupList = useSelector((state) => state.group.groups);
+  useEffect(() => {
+    dispatch(getGroups());
+  }, [dispatch]);
 
   return (
     <Grid className={classes.mainContainer} container>
@@ -149,11 +169,9 @@ const Group = () => {
               {memberList.length > 0 &&
                 memberList.map((m) => (
                   <Grid className={classes.member} key={m.id} container xs={12}>
+                    <Grid item>{m.name}</Grid>
                     <Grid item>
-                      {m.name}
-                    </Grid>
-                    <Grid item>
-                      <IconButton className={classes.button} > 
+                      <IconButton className={classes.button}>
                         <CloseIcon />
                       </IconButton>
                     </Grid>
@@ -170,11 +188,28 @@ const Group = () => {
         </Grid>
 
         <Grid className={classes.groupRecommendations} item xs={8}>
+
           <Grid className={classes.recommendationContainer} container>
             <Grid className={classes.recommendations} item>
-              <CustomGrid className={{padding: 0}} list={recList} spacing={0}/>
+              {recList ? (
+                <CustomGrid
+                  className={{ padding: 0 }}
+                  list={recList}
+                  spacing={0}
+                  type="movie"
+                />
+              ) : (
+                <Grid item>Nothing here</Grid>
+              )}
             </Grid>
           </Grid>
+
+          <Grid className={classes.groupsListContainer} container xs={12}>
+            <Grid className={classes.groupsList} item xs={12}>
+                <CustomGrid list={groupList} spacing={0} type="group"/>
+            </Grid>
+          </Grid>
+
         </Grid>
       </Grid>
     </Grid>
