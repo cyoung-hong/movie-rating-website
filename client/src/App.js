@@ -22,6 +22,7 @@ import Group from "./components/Group/Group.js";
 import { useIdleTimer } from "react-idle-timer";
 
 import {authenticate} from './redux/actions/authActions.js';
+import FileUpload from "./components/Form/FileUpload.js";
 
 axios.defaults.baseURL = "https:/localhost:8082/api/";
 axios.defaults.withCredentials = true;
@@ -56,6 +57,8 @@ const App = () => {
           <Route exact path="/results" component={ResultList} />
           <Route exact path="/user" component={User} />
           <Route exact path="/group" component={Group} />
+          <Route exact path="/group/create" component={GroupForm} />
+          <Route exact path="/test" component={FileUpload}/>
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
