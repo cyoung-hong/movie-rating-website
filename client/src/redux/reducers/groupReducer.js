@@ -1,18 +1,25 @@
-import {CREATE_GROUP} from "../actionTypes.js";
+import { GET_ALL_GROUPS, ADD_GROUP } from "../actionTypes.js";
 
 const initialData = {
-    groupName: null,
-    groupPhoto: null,
-    members: [],
-    groupRecs: []
+  groups: [],
 };
 
 const groupReducer = (state = initialData, action) => {
-    switch(action.type){
-        case CREATE_GROUP: 
-        default:
-            return state;
-    }
-}
+  switch (action.type) {
+    case GET_ALL_GROUPS:
+      console.log(action.data);
+      return {
+        ...state,
+        groups: action.payload,
+      };
+    case ADD_GROUP: 
+    return {
+        ...state,
+        groups: [...state.groups, action.payload]
+    };
+    default:
+      return state;
+  }
+};
 
 export default groupReducer;
