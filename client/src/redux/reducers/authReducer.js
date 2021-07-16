@@ -2,6 +2,17 @@ import { AUTH, USER_SIGNUP, LOGOUT } from "../actionTypes.js";
 
 const initialData = {
   loggedIn: false,
+  user: {
+    _id: null,
+    username: "",
+    picturePath: "",
+    activeGroup: {
+      _id: null,
+      groupName: "",
+      members: [],
+      groupRecommendations: [],
+    },
+  },
 };
 
 const authReducer = (state = initialData, action) => {
