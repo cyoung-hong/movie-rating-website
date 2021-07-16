@@ -15,6 +15,8 @@ export const USER_SIGNIN = 'USER_SIGNIN';
 export const USER_SIGNUP = 'USER_SIGNUP';
 
 // Group Actions
+export const GET_ALL_GROUPS = 'GET_ALL_GROUPS';
+export const ADD_GROUP = 'ADD_GROUP';
 export const CREATE_GROUP = 'CREATE_GROUP';
 
 // UI Actions
