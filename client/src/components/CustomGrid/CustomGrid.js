@@ -12,9 +12,10 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "inherit",
   },
   gridWrapper: {
-    maxHeight: "inherit",
+    maxHeight: "100%",
   },
-  tileWrapper: {},
+  tileWrapper: {
+  },
   movieCardWrapper: {
     maxHeight: "inherit",
   },
@@ -30,17 +31,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CustomGrid = ({...props}) => {
-  const {list, spacing, type} = props; 
+  const {list, spacing, type, gridContainerXs, tileWrapperXs} = props; 
   const classes = useStyles(props);
 
   return (
     <Grid className={classes.customGrid} container>
       <Grid className={classes.gridWrapper} item>
-        <Grid className={classes.gridContainer} spacing={spacing} container>
+        <Grid className={classes.gridContainer} spacing={spacing} container xs={gridContainerXs}>
           {list.length > 0 ? (
             list.map((l) => (
               type === "movie" ? 
-              <Grid className={classes.tileWrapper} key={l.id} item>
+              <Grid className={classes.tileWrapper} key={l.id} item xs={tileWrapperXs}>
                 <CustomTile className={classes.tile} rec={l} />
               </Grid> :
               <Grid className={classes.movieCardWrapper} key={l.id} item xs={4}>
