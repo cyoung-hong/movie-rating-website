@@ -1,4 +1,4 @@
-import { GET_RECOMMENDATIONS, GET_MY_RECOMMENDATIONS, GET_GROUP_RECOMMENDATIONS } from "../actionTypes.js";
+import { GET_RECOMMENDATIONS, GET_MY_RECOMMENDATIONS } from "../actionTypes.js";
 
 const initialState = {
   allRecommendations: [],

@@ -3,11 +3,11 @@ import { AUTH, USER_SIGNUP, LOGOUT } from "../actionTypes.js";
 const initialData = {
   loggedIn: false,
   user: {
-    _id: null,
+    _id: "",
     username: "",
     picturePath: "",
     activeGroup: {
-      _id: null,
+      _id: "",
       groupName: "",
       members: [],
       groupRecommendations: [],

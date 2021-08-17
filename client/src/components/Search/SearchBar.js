@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Paper,
-  InputBase,
-  IconButton,
-} from "@material-ui/core";
+import { Paper, InputBase, IconButton } from "@material-ui/core";
 
-import {useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -21,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     alignSelf: "center",
     height: 30,
+    borderRadius: "50px",
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -47,12 +44,11 @@ const SearchBar = () => {
     event.preventDefault();
     //console.log(query);
     const tmpPage = page.toString();
-    
+
     // Goes to tmdbReducer after
     dispatch(searchMovieByTitle(query, tmpPage));
-    history.push('/results');
+    history.push("/results");
   };
-  
 
   return (
     <Paper

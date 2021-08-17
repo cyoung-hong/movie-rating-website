@@ -86,7 +86,7 @@ export const createGroup = async (req, res) => {
         } 
 
         foundUser.activeGroup = savedGroup;
-        const savedUser = foundUser.save();
+        const savedUser = await foundUser.save();
         if(savedUser) {
           return res.status(200).json({ message: 'Group created!' });
         } else {
@@ -95,16 +95,6 @@ export const createGroup = async (req, res) => {
       } else {
         return res.staus(500).json({message: "Unable save group." })
       }
-
-
-      newGroup
-        .save()
-        .then((savedGroup) => {
-          res.status(201).json({ savedGroup });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     } else {
       //Add redirect to login
       console.log("Error, redirecting...");
