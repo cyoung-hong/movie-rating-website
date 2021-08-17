@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Button,
-  Avatar,
   Typography,
   IconButton,
 } from "@material-ui/core";
@@ -13,31 +12,30 @@ import { useDispatch, useSelector } from "react-redux";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture.js";
 import CustomGrid from "../CustomGrid/CustomGrid.js";
-import GroupCard from "./GroupCard.js";
+// import GroupCard from "./GroupCard.js";
 
 import { getGroups } from "../../redux/actions/groupActions.js";
 
-
 import pfp from "../../images/agtown5years.jpg";
 
-const groupTest = {
-  groupName: "Bank Busta",
-  groupPhoto: "",
-  members: [
-    {
-      photo: "",
-    },
-  ],
-  recommendations: [
-    {
-      movie: {
-        title: "Yah yah",
-        year: 1990,
-        runtime: 90,
-      },
-    },
-  ],
-};
+// const groupTest = {
+//   groupName: "Bank Busta",
+//   groupPhoto: "",
+//   members: [
+//     {
+//       photo: "",
+//     },
+//   ],
+//   recommendations: [
+//     {
+//       movie: {
+//         title: "Yah yah",
+//         year: 1990,
+//         runtime: 90,
+//       },
+//     },
+//   ],
+// };
 
 const memberList = [
   {
@@ -45,6 +43,67 @@ const memberList = [
     pfp: pfp,
   },
   {
+    name: "Rob",
+    pfp: pfp,
+  },
+  {
+    name: "Jobs",
+    pfp: pfp,
+  },
+  {
+    name: "Hob",
+    pfp: pfp,
+  },
+  {
+    name: "Nob",
+    pfp: pfp,
+  },
+  {
+    name: "Rob",
+    pfp: pfp,
+  },
+  {
+    name: "Jobs",
+    pfp: pfp,
+  },
+  {
+    name: "Hob",
+    pfp: pfp,
+  },
+  {
+    name: "Nob",
+    pfp: pfp,
+  },  {
+    name: "Rob",
+    pfp: pfp,
+  },
+  {
+    name: "Jobs",
+    pfp: pfp,
+  },
+  {
+    name: "Hob",
+    pfp: pfp,
+  },
+  {
+    name: "Nob",
+    pfp: pfp,
+  },  {
+    name: "Rob",
+    pfp: pfp,
+  },
+  {
+    name: "Jobs",
+    pfp: pfp,
+  },
+  {
+    name: "Hob",
+    pfp: pfp,
+  },
+  {
+    name: "Nob",
+    pfp: pfp,
+  },  {
     name: "Rob",
     pfp: pfp,
   },
@@ -76,12 +135,13 @@ const useStyles = makeStyles((theme) => ({
   },
   groupContainer: {
     height: "85vh",
-    width: "90%",
+    width: "70%",
     justifyContent: "center",
   },
   groupInfo: {
     backgroundColor: "#00000080",
     margin: "0px 8px",
+    maxHeight: "100%",
   },
   infoContainer: {
     width: "inherit",
@@ -100,6 +160,11 @@ const useStyles = makeStyles((theme) => ({
   memberList: {
     height: "70%",
     padding: "0px 16px",
+    overflow: "scroll",
+    '&::-webkit-scrollbar' :{
+      width: '0',
+      diplay: 'hidden',
+    }
   },
   member: {
     margin: "4px 0px",
@@ -117,6 +182,12 @@ const useStyles = makeStyles((theme) => ({
   },
   recommendations: {
     width: "100%",
+    maxHeight: "100%",
+    overflow: "scroll",
+    '&::-webkit-scrollbar' :{
+      width: '0',
+      diplay: 'hidden',
+    }
   },
   groupRecommendations: {
     margin: "0px 8px",
@@ -133,8 +204,13 @@ const useStyles = makeStyles((theme) => ({
   },
   groupsList: {
     maxHeight: "inherit",
-    maxWidth: "inherit"
-  }
+    maxWidth: "inherit",
+    overflow: "scroll",
+    '&::-webkit-scrollbar' :{
+      width: '0',
+      diplay: 'hidden',
+    }
+  },
 }));
 
 const Group = () => {
@@ -143,6 +219,10 @@ const Group = () => {
 
   const recList = useSelector(
     (state) => state.auth.user.activeGroup.groupRecommendations
+  );
+
+  const userRecs = useSelector(
+    (state) => state.recommendations.myRecommendations
   );
 
   // Do i need to save in redux? If so, change group reducer slice blah blah
@@ -188,13 +268,12 @@ const Group = () => {
         </Grid>
 
         <Grid className={classes.groupRecommendations} item xs={8}>
-
           <Grid className={classes.recommendationContainer} container>
-            <Grid className={classes.recommendations} item>
-              {recList ? (
+            <Grid className={classes.recommendations} item xs={12}>
+              {userRecs ? (
                 <CustomGrid
                   className={{ padding: 0 }}
-                  list={recList}
+                  list={userRecs}
                   spacing={0}
                   type="movie"
                 />
@@ -206,10 +285,9 @@ const Group = () => {
 
           <Grid className={classes.groupsListContainer} container xs={12}>
             <Grid className={classes.groupsList} item xs={12}>
-                <CustomGrid list={groupList} spacing={0} type="group"/>
+              <CustomGrid list={groupList} spacing={0} type="group" />
             </Grid>
           </Grid>
-
         </Grid>
       </Grid>
     </Grid>
