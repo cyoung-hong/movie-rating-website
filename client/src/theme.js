@@ -25,8 +25,23 @@ export default {
     },
   },
   typography: {
+    h6: {
+      fontSize: '0.8rem',
+      fontWeight: 400,
+      '@media (max-width:720px)': {
+        fontSize: '0.6rem',
+        fontWeight: 400,
+      },
+      '@media (max-width:600px)': {
+        fontSize: '0.5rem',
+        fontWeight: 400,
+      },
+    },
     body1: {
       fontSize: "0.8em",
-    }
+    },
+    footer1: {
+      fontSize: "0.6rem",
+    },
   }
 };
