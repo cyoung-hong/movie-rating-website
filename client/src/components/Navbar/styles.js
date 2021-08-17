@@ -21,5 +21,16 @@ export default makeStyles((theme) => ({
   },
   homeLink: {
     textDecoration: 'none',
+  },
+  webMenu: {
+   '@media (max-width:720px)': {
+      display: "none"
+    }
+  },
+  mobileMenu: {
+    display: "none",
+    '@media (max-width:720px)': {
+      display: "flex"
+    }
   }
 }));
